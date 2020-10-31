@@ -4,9 +4,11 @@ use Controllers\UserController as C_User;
 use Controllers\MovieController as C_Movie;
 use Controllers\TheatherController as C_theather;
 use Controllers\SessionController as C_Session;
+use Controllers\RoomController as C_Room;
 
 use models\User as M_User;
 use models\Movie as M_Movie;
+use models\Room as M_Room;
 
 class ViewController
 {
@@ -15,6 +17,7 @@ class ViewController
     private $movieController;
     private $theatherController;
     private $sessionController;
+    private $roomController;
 
     public function __construct()
     { }
@@ -130,9 +133,11 @@ class ViewController
         $this->userController = new C_User;
         $user = $this->userController->checkSession();
 
-        if(isset ($_POST["id"]) && ($_POST['tickets'])){
+        if(isset ($_POST["id"]) && ($_POST['tickets']) && ($_POST['name_room']) && ($_POST['id_theather']) ){
             
             $tickets = $_POST["tickets"];
+            $name_room =   $_POST['name_room'];
+            $id_theather = $_POST['id_theather'];
 
             if($tickets > 0){
 
@@ -141,6 +146,10 @@ class ViewController
 
                 $this->sessionController = new C_Session;
                 $S_list = $this->sessionController->getSession_purchase($id);
+
+                $this->roomController = new C_Room;
+                $totalSeats = $this->roomController->readTotalSeats($name_room, $id_theather);
+                echo "$totalSeats";
 
                 require(VIEWS_PATH . "viewPurchase.php");
 

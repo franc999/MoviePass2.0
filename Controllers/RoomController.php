@@ -7,9 +7,6 @@ use Controllers\ViewController as C_View;
 
 use DAO\DAORoom as Dao;
 
-
-
-
 class RoomController{
 
     protected $dao;
@@ -72,7 +69,7 @@ class RoomController{
 
         $room = $this->dao->readForNameTheather($name_room,$id_theather);
         
-        return $room->getId();
+        return $room->getId_room();
     }
 
 
@@ -93,5 +90,13 @@ class RoomController{
         return $list;
     }
 
+    
+    public function readTotalSeats($name_room, $id_theather){
 
+        $name_room=("'".$name_room."'");
+
+        $room = $this->dao->readForNameTheather($name_room,$id_theather);
+        
+        return $room->getTotalSeats();
+    }
 }

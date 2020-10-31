@@ -39,7 +39,6 @@ include("nav-bar-user.php");?>
 
                   foreach($S_list as $list){
                   ?>
-                    
                     <tr>
                       <form action ="<?php echo FRONT_ROOT. "View/viewPurchase"?>" method="POST" enctype="multipart/form-data"> <!--Envia cantidad de tickets a comprar-->
                         <td><?php echo $list->getTheather() ?></td>
@@ -52,6 +51,8 @@ include("nav-bar-user.php");?>
                         <td>
                           <button type="submit" name="id" class="btn btn-success" > Comprar </button>
                           <input type="hidden" name="id" value=" <?php echo $list->getId(); ?>" >
+                          <input type="hidden" name="name_room" value=" <?php echo $list->getRoom(); ?> ">
+                          <input type="hidden" name="id_theather" value=" <?php echo $list->getTheather(); ?> ">
                         </td>
                       </form>  
                     </tr>
@@ -73,7 +74,9 @@ include("nav-bar-user.php");?>
 
                           <td>
                             <button type="submit" name="id" class="btn btn-success" > Comprar </button>
+                            <input type="hidden" name="name_room" value=" <?php echo $list->getRoom(); ?> ">
                             <input type="hidden" name="id" value=" <?php echo $list->getId(); ?>" >
+                            <input type="hidden" name="id_theather" value=" <?php echo $list->getTheather(); ?> ">
                           </td>
 
                         </form>  

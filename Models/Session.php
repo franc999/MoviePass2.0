@@ -4,49 +4,44 @@
 class Session
 {
     private $id_session;
-    private $theather;
-    private $room;
-    private $movie;
+    private $id_theather;
+    private $id_room;
+    private $id_movie;
     private $date;
     private $time;
-    private $id_movie;
-    private $id_ticket;
+    private $price;
 
-
-
-    public function __construct($theather='',$room='',$movie='',$date='',$time='',$id_movie='',$id_session='',$id_ticket='', $price=''){
+    public function __construct($id_theather='',$id_room='',$id_movie='',$date='',$time='',  $price='', $id_session=''){
         
         $this->id_session=$id_session;
-        $this->theather=$theather;
-        $this->room=$room;
-        $this->movie=$movie;
+        $this->id_theather=$id_theather;
+        $this->id_room=$id_room;
+        $this->id_movie=$id_movie;
         $this->date=$date;
         $this->time=$time;
-        $this->$id_movie=$id_movie;
-        $this->id_ticket=$id_ticket;
         $this->price=$price;
     }
 
     ////////////** SETTERS *//////////////////
 
-    public function setId($id_session)
+    public function setId_session($id_session)
     {
         $this->id_session=$id_session;
     }
 
-    public function setTheather($theather){
+    public function setId_theather($id_theather){
 
-        $this->theather=$theather;
+        $this->id_theather=$id_theather;
     }
 
-    public function setRoom($room)
+    public function setId_room($id_room)
     {
-        $this->room=$room;
+        $this->id_room=$id_room;
     }
 
-    public function setMovie($movie)
+    public function setId_movie($id_movie)
     {
-        $this->movie=$movie;
+        $this->id_movie=$id_movie;
     }
 
     public function setDate($date)
@@ -59,16 +54,6 @@ class Session
         $this->time=$time;
     }
 
-    public function setId_movie($id_movie){
-        
-        $this->id_movie=$id_movie;
-    }
-
-    public function setid_ticket($id_ticket)
-    {
-        $this->id_ticket=$id_ticket;
-    }
-
     public function setPrice($price){
 
         $this->price=$price;
@@ -76,24 +61,23 @@ class Session
 
     ////////////** GETTERS *//////////////////
 
-    public function getId()
+    public function getId_session()
     {
         return $this->id_session;
     }
 
-    public function getTheather(){
+    public function getId_theather(){
 
-        return $this->theather;
+        return $this->id_theather;
     }
 
-    public function getRoom()
+    public function getId_room()
     {
-        return $this->room;
+        return $this->id_room;
     }
-
-    public function getMovie()
+    public function getId_movie()
     {
-        return $this->movie;
+        return $this->id_movie;
     }
 
     public function getDate()
@@ -104,16 +88,6 @@ class Session
     public function getTime()
     {
         return $this->time;
-    }
-
-    public function getid_ticket()
-    {
-        return $this->id_ticket;
-    }
-
-    public function getId_movie(){
-        
-        return $this->id_movie;
     }
 
     public function getPrice(){

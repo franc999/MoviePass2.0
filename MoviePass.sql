@@ -11,22 +11,14 @@ create table users ( id int auto_increment primary key, level int not null, name
 
 
 /************************Tabla de Peliculas*****************************/
-create table movies ( id int auto_increment primary key, title varchar(80) not null,
+create table movies ( id_movie int auto_increment primary key, title varchar(80) not null,
 					  age varchar(10) not null, category varchar(40) not null, img varchar(80) not null);
 
 
 
 /***********************************Tabla Cines**********************************/
 
-CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null, adress varchar(30) not null, 
-						 price float not null, full_capacity int not null);
-
-
-
-/***********************************Tabla ticket**********************************/
-
-create table ticket (id_ticket int auto_increment primary key, id_rm int default(0), id_user int not null, movie varchar(50) not null,
-					 date date not null, time time not null, price float not null, theather varchar(50)not null);
+CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null);
 
 
 
@@ -40,9 +32,19 @@ create table rooms (id_room int auto_increment primary key, id_theather int not 
 
 
 create table room_x_movie (id_rm int auto_increment primary key, id_room int not null, id_movie int default (0), date date not null ,
-					       time time not null , id_ticket int not null,
+					       time time not null , id_theather int not null, price float not null,
+                           foreign key (id_theather) references theathers(id_theather) ON DELETE CASCADE,
 						   foreign key (id_room) references rooms(id_room) ON DELETE CASCADE,
-                           foreign key (id_movie)references movies(id) ON DELETE CASCADE);
+                           foreign key (id_movie)references movies(id_movie) ON DELETE CASCADE);
+
+
+
+/***********************************Tabla ticket**********************************/
+
+create table ticket (id_ticket int auto_increment primary key, id_rm int default(0), id_user int not null, id_movie int not null,
+					 date date not null, time time not null, price float not null, code varchar(100) not null, id_theather int not null,
+					 foreign key (id_rm) references room_x_movie(id_rm) ON DELETE CASCADE);
+
 
 
 
@@ -74,11 +76,11 @@ insert into movies (title, age, category, img) values ("Avengers EndGame", "13",
 
 /*Volcado a de cines*/
 
-insert into theathers( name , adress , price , full_capacity) values ('Ambassador','Cordoba 1673',300,200);  
-insert into theathers( name , adress , price , full_capacity) values ('Cines Paseo Aldrey','Sarmiento 2685',320,200);
-insert into theathers( name , adress , price , full_capacity) values ('Cine del Paseo','Diagonal Pueyrredón 3058',300,400);
-insert into theathers( name , adress , price , full_capacity) values ('Cine del Paseo','Diagonal Pueyrredón 3058',300,200);
-insert into theathers( name , adress , price , full_capacity) values ('Los Gallegos Shopping','Diagonal Pueyrredón 3058',300,200); 
+insert into theathers( name) values ('Ambassador');  
+insert into theathers( name) values ('Cines Paseo Aldrey');
+insert into theathers( name) values ('Cine del Paseo');
+insert into theathers( name) values ('Cine del Paseo');
+insert into theathers( name) values ('Los Gallegos Shopping'); 
 
 
 /* Volcado de tickets */
@@ -113,6 +115,7 @@ insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 4
 
 
 /**Volcado en Sala_X_pelicula**/
+insert into room_x_movie(id_theather, id_room,id_movie,date,time)values(1,1,1,'2019-12-10' ,'18:00');
 
 /*insert into room_x_movie(id_room,id_movie,date,time)values(1,1,'2019-12-10' ,'18:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(2,2,'2019-12-10',' 18:00');
@@ -139,7 +142,7 @@ insert into room_x_movie(id_room,id_movie,date,time)values(18,3,'2019-12-04',' 1
 insert into room_x_movie(id_room,id_movie,date,time)values(19,3,'2019-12-04',' 19:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(20,3,'2019-12-06',' 22:00');*/
 
-select *from rooms;
+select *from room_x_movie;
 
-SELECT r.id_room FROM rooms r where id_theather = 1 AND name LIKE 'Sala 1';
-SELECT *FROM ticket where movie = "Joker" and date = "2020-12-12" and theather = "Ambassador";
+SELECT *FROM room_x_movie rm where rm.id_room = 1  and
+			 rm.id_movie = 1 and rm.date like "2020-10-02" and time like "16:30:00";

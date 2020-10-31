@@ -6,23 +6,25 @@ namespace Models;
 class Ticket
 {
     private $id_ticket;
-    private $sala;
-    private $code;
+    private $id_user;
+    private $name_room;
     private $name_movie;
-    private $date;
     private $name_theather;
-    private $adress;
+    private $code;
+    private $date;
+    private $time;
     private $price;
 
-    public function __construct($id_ticket = '', $sala = '', $code = '', $name_movie = '', $date = '', $name_theather = '', $adress = '', $price = '')
+    public function __construct($id_ticket = '', $id_user = '0', $name_room = '', $name_movie = '',  $name_theather = '', $code = '', $time = '', $date = '', $price = '')
     {
         $this->id_ticket = $id_ticket;
-        $this->sala = $sala;
-        $this->code = $code;
-        $this->name_movie = $name_movie;
-        $this->date = $date;
+        $this->id_user = $id_user;
+        $this->name_room = $name_room;
         $this->name_theather = $name_theather;
-        $this->adress = $adress;
+        $this->name_movie = $name_movie;
+        $this->code = $code;
+        $this->date = $date;
+        $this->time = $time;
         $this->price = $price;
     }
 
@@ -35,10 +37,15 @@ class Ticket
         $this->id_ticket = $id_ticket;
     }
 
-    public function setSala($sala)
+    public function setId_user($id_user){
+
+        $this->id_user = $id_user;
+    }
+
+    public function setName_room($name_room)
     {
 
-        $this->sala = $sala;
+        $this->name_room = $name_room;
     }
 
     public function setCode($code)
@@ -66,10 +73,9 @@ class Ticket
         $this->name_theather = $name_theather;
     }
 
-    public function setAdress($adress)
-    {
+    public function setTime($time){
 
-        $this->adress = $adress;
+        $this->time = $time;
     }
 
     public function setPrice($price)
@@ -88,10 +94,16 @@ class Ticket
         return $this->id_ticket;
     }
 
-    public function getSala()
+    public function getId_user()
     {
 
-        return $this->sala;
+        return $this->id_user;
+    }
+
+    public function getName_room()
+    {
+
+        return $this->name_room;
     }
 
     public function getCode()
@@ -107,6 +119,11 @@ class Ticket
     }
 
 
+    public function getTime(){
+
+        return $this->time;
+    }
+
     public function getDate()
     {
 
@@ -117,12 +134,6 @@ class Ticket
     {
 
         return $this->name_theather;
-    }
-
-    public function getAdress()
-    {
-
-        return $this->adress;
     }
 
     public function getPrice()

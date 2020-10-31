@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Session as Session;
 use Models\Ticket as Ticket;
+use Models\Room as Room;
 
 use Controllers\MovieController as C_Movie;
 use Controllers\RoomController as C_Room;
@@ -11,9 +12,6 @@ use Controllers\ViewController as C_View;
 use Controllers\TicketController as C_Ticket;
 
 use DAO\DAOSession as Dao;
-
-
-
 
 class SessionController
 {
@@ -23,8 +21,6 @@ class SessionController
     private $roomController;
     private $ticketController;
     private $viewController;
-
-
 
 
     function __construct()
@@ -37,32 +33,43 @@ class SessionController
     }
 
 
-    public function create($id_movie, $id_theather, $date, $time, $name_room)
-    {
+    public function returnSession($time, $date, $id_theather, $id_movie, $id_room){
+
+        $session = new Session();
+        $session = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room);
+        return $session;
+    }
+
+    public function create($id_movie, $id_theather, $date, $time, $name_room){
+
         $id_room = $this->roomController->getId_for_name_theather($name_room, $id_theather); // traemos el id de la sala del cine correcto
 
-        $room = $this->roomController->read($id_room);         // leemos la sala por id
+        $room = $this->roomController->read($id_room);         // retornamos la sala por id
 
         $price = $room->getTicketPrice();           // solicitamos el precio de entrada de la sala seleccionada
-        
         $session = new Session($id_theather, $id_room, $id_movie, $date, $time, $price); // creamos objeto tipo funcion
+
+        $this->dao->create($session);   // creamos la sesion 
+
+        $sessionId = new Session();
+        $sessionId = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room);
+        
+        $rmId = $sessionId->getId_Session();
+
+        $session->setId_session($rmId);
 
         $this->dao->createTicket($session, $price);            // creamos el ticket
 
-        $this->dao->create($session);   // creamos la sesion
+        //$ticket = new Ticket();
 
-        $ticket = new Ticket();
-
-        $ticket= $this->ticketController->readTicket($session);
-
-        if ($ticket != false)
-            echo 'vamos bien';
-
-        echo $ticket;
+        //$ticket= $this->ticketController->readTicket($session);
+        //echo "$ticket";
         //echo $ticket->getId_ticket();
 
         $this->viewController->viewList_sessions();
     }
+
+
 
     public function readAll()
     {

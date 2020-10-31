@@ -12,8 +12,7 @@ class Movie
     private $img;
 
 
-    public function __construct($id = '', $title = '', $category = '', $age = '', $img = '')
-    {
+    public function __construct($id = '', $title = '', $category = '', $age = '', $img = ''){
 
         $this->id = $id;
         $this->title = $title;
@@ -46,6 +45,11 @@ class Movie
     {
 
         $this->age = $age;
+    }
+
+    public function setImg($img){
+
+        $this->img = $img;
     }
 
 

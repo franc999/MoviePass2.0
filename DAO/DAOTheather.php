@@ -21,12 +21,9 @@
               public function create($_theather) {
 
                    // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
-                   $sql = "INSERT INTO theathers (name,adress,price,full_capacity) VALUES (:name,:adress,:price,:full_capacity)";
+                   $sql = "INSERT INTO theathers (name) VALUES (:name)";
 
                    $parameters['name'] = $_theather->getName();
-                   $parameters['adress'] = $_theather->getAdress();
-                   $parameters['price'] = $_theather->getPrice();
-                   $parameters['full_capacity'] = $_theather->getFull_capacity();
                    
                    try {
                          // creo la instancia connection
@@ -93,12 +90,9 @@
 
               public function edit($_theather) { 
 
-                   $sql = "UPDATE theathers SET name = :name, adress = :adress, price = :price, full_capacity = :full_capacity";
+                   $sql = "UPDATE theathers SET name = :name";
 
                    $parameters['name'] = $_theather->getName();
-                   $parameters['adress'] = $_theather->getAdress();
-                   $parameters['price'] = $_theather->getPrice();
-                   $parameters['id_tmdb'] = $_theather->getfull_capacity();
     
                    try {
                         // creo la instancia connection
@@ -113,7 +107,7 @@
               
               public function delete($_id) {
 
-                   $sql = "DELETE FROM theathers WHERE id = :id";
+                   $sql = "DELETE FROM theathers WHERE id_theather = :id";
                    $parameters['id'] = $_id;
 
                    try {
@@ -138,7 +132,7 @@
 
                 $resp = array_map(function($p){
                     
-                    return new M_theather($p['id_theather'], $p['name'], $p['adress'], $p['price'],$p['full_capacity']);  
+                    return new M_theather($p['id_theather'], $p['name']);  
                 }, $value);
                     
                    return count($resp) > 1 ? $resp : $resp['0'];

@@ -33,6 +33,7 @@ if ($user) {
                 <th style="width: 10%;">Fecha</th>
                 <th style="width: 15%;">Hora</th>
                 <th style="width: 10%;">Cantidad tickets</th>
+                <th style="width: 10%;">Asientos disponibles</th>
                 <th style="width: 10%;">Precio</th>
 
                 <th></th>
@@ -54,6 +55,7 @@ if ($user) {
                       <td><?php echo $list->getDate()?></td>
                       <td><?php echo $list->getTime()?></td>
                       <td><?php echo "$tickets"?></td>
+                      <td><?php echo "$totalSeats"?></td>
                       <td><?php echo "$resultado"?></td>
                       
                       <td><button type="submit" class="btn btn-outline-info"> Pagar </button></td>
@@ -76,6 +78,7 @@ if ($user) {
                       <td><?php echo $list->getDate()?></td>
                       <td><?php echo $list->getTime()?></td>
                       <td><?php echo "$tickets"?></td>
+                      <td><?php echo "$totalSeats"?></td>
                       <td><?php echo "$resultado"?></td>
                       
                       <td><button type="submit" class="btn btn-outline-info"> Pagar </button></td>

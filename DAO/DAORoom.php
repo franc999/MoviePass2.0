@@ -144,8 +144,6 @@ class DAORoom
        return false;
     }
 
-
-
     public function edit($_room)
     {
 

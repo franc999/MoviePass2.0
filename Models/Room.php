@@ -4,16 +4,16 @@
 class Room
 {
     private $id_room;
-    private $theather;
+    private $id_theather;
     private $name;
     private $ticketPrice;
     private $totalSeats;
 
 
-    public function __construct($theather='',$name='',$id_room='', $totalSeats='', $ticketPrice=''){
+    public function __construct($id_theather='',$name='',$id_room='', $totalSeats='', $ticketPrice=''){
         
         $this->id_room=$id_room;
-        $this->theather=$theather;
+        $this->id_theather=$id_theather;
         $this->name=$name;
         $this->ticketPrice=$ticketPrice;
         $this->totalSeats=$totalSeats;
@@ -21,14 +21,14 @@ class Room
 
     ////////////** SETTERS *//////////////////
 
-    public function setId($id_room)
+    public function setId_room($id_room)
     {
         $this->id_room->$id_room;
     }
 
-    public function setTheather($theather){
+    public function setId_theather($id_theather){
 
-        $this->theather=$theather;
+        $this->id_theather=$id_theather;
     }
 
     public function setName($name)
@@ -48,14 +48,14 @@ class Room
 
     ////////////** GETTERS *//////////////////
 
-    public function getId()
+    public function getId_Room()
     {
         return $this->id_room;
     }
 
-    public function getTheather(){
+    public function getId_theather(){
 
-        return $this->theather;
+        return $this->id_theather;
     }
 
     public function getName()

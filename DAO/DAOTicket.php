@@ -16,15 +16,14 @@
                $this->connection = null;
               }
 
-        
-
+    
 
             public function readId($_session) {
                 
-                $sql = "SELECT *FROM ticket where movie = :movie and date = :date and theather = :theather and time = :time";
+                $sql = "SELECT *FROM ticket where name_movie = :name_movie and date = :date and name_theather = :name_theather and time = :time";
           
-                $parameters['theather'] = $_session->getTheather();
-                $parameters['movie'] = $_session->getMovie();
+                $parameters['name_theather'] = $_session->getName_theather();
+                $parameters['name_movie'] = $_session->getName_movie();
                 $parameters['date'] = $_session->getDate();
                 $parameters['time'] = $_session->getTime();
 

@@ -43,7 +43,7 @@
               
               public function read($_id) {
                
-                   $sql = "SELECT * FROM movies where id = :id";
+                   $sql = "SELECT * FROM movies where id_movie = :id";
 
 
                    $parameters['id'] = $_id;
@@ -161,7 +161,7 @@
               
               public function delete($_id) {
 
-                   $sql = "DELETE FROM movies WHERE id = :id";
+                   $sql = "DELETE FROM movies WHERE id_movie = :id";
                    $parameters['id'] = $_id;
 
                    try {
@@ -186,7 +186,7 @@
 
                 $resp = array_map(function($p){
                     
-                    return new M_Movie($p['id'], $p['title'], $p['category'], $p['age'], $p['img']);  
+                    return new M_Movie($p['id_movie'], $p['title'], $p['category'], $p['age'], $p['img']);  
                 }, $value);
                     
                    return count($resp) > 1 ? $resp : $resp['0'];

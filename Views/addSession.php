@@ -24,9 +24,9 @@ include("nav-bar-admin.php");?>
           <table style="text-align:center;" class="table table-responsive table-bordered">
             <thead class="table-active">
               <tr>
-                <th style="width: 15%;">Titulo Pelicula</th>
-                <th style="width: 30%;">Cine</th>
-                <th style="width: 30%;">Fecha</th>
+                <th style="width: 25%;">Titulo Pelicula</th>
+                <th style="width: 25%;">Cine</th>
+                <th style="width: 25%;">Fecha</th>
                 <th style="width: 15%;">Turno</th>
                 <th style="width: 10%;">Sala</th>
               </tr>
@@ -35,16 +35,19 @@ include("nav-bar-admin.php");?>
             <tr>
                 <td>
                     <select name='id_movie'>
-                        <option>Seleccionar una Pelicula</option>
+                        <option>Selecciona la pelicula</option>
 
                          <?php foreach ($M_list as $key => $movie) { ?>
                         <option value="<?php echo $movie->getId();  ?>"><?php echo $movie->getTitle(); ?></option>
                         <?php } ?>
+                         
                     </select> 
+                    
                 </td>
+                
                 <td>
                   <select name='id_theather'>
-                    <option>Seleccionar un cine</option>
+                    <option>Selecciona el cine</option>
 
                     <?php foreach ($T_list as $key => $theater) { ?>
                       <option value="<?php echo $theater->getId();  ?>"><?php echo $theater->getName(); ?></option>
@@ -75,8 +78,11 @@ include("nav-bar-admin.php");?>
                   
                   </select>
                 </td>
+                
+                <td>
+                <button type="submit" class="btn btn-success" > Agregar </button>
+                </td>
 
-                <td><button type="submit" class="btn btn-success" > Agregar </button></td>
             </tr>
             </tbody>
           </table>
