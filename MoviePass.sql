@@ -18,7 +18,7 @@ create table movies ( id_movie int auto_increment primary key, title varchar(80)
 
 /***********************************Tabla Cines**********************************/
 
-CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null);
+CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null, adress varchar(30) not null);
 
 
 
@@ -76,11 +76,11 @@ insert into movies (title, age, category, img) values ("Avengers EndGame", "13",
 
 /*Volcado a de cines*/
 
-insert into theathers( name) values ('Ambassador');  
-insert into theathers( name) values ('Cines Paseo Aldrey');
-insert into theathers( name) values ('Cine del Paseo');
-insert into theathers( name) values ('Cine del Paseo');
-insert into theathers( name) values ('Los Gallegos Shopping'); 
+insert into theathers( name, adress)  values ('Ambassador', 'avenida 1');  
+insert into theathers( name, adress) values ('Cines Paseo Aldrey', 'paseo 2');
+insert into theathers( name, adress) values ('Cine del Paseo', 'paseo 3');
+insert into theathers( name, adress) values ('Cine del Paseo', 'avenida 7');
+insert into theathers( name, adress) values ('Los Gallegos Shopping', 'calle 12'); 
 
 
 /* Volcado de tickets */
@@ -115,7 +115,6 @@ insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 4
 
 
 /**Volcado en Sala_X_pelicula**/
-insert into room_x_movie(id_theather, id_room,id_movie,date,time)values(1,1,1,'2019-12-10' ,'18:00');
 
 /*insert into room_x_movie(id_room,id_movie,date,time)values(1,1,'2019-12-10' ,'18:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(2,2,'2019-12-10',' 18:00');
@@ -142,7 +141,9 @@ insert into room_x_movie(id_room,id_movie,date,time)values(18,3,'2019-12-04',' 1
 insert into room_x_movie(id_room,id_movie,date,time)values(19,3,'2019-12-04',' 19:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(20,3,'2019-12-06',' 22:00');*/
 
+select *from rooms;
+
 select *from room_x_movie;
 
-SELECT *FROM room_x_movie rm where rm.id_room = 1  and
-			 rm.id_movie = 1 and rm.date like "2020-10-02" and time like "16:30:00";
+SELECT *FROM room_x_movie where id_room = 1  and
+			 id_movie = 1 and date like "2020-11-01" and time like "16:30:00" and price = 300;

@@ -3,6 +3,7 @@
 namespace DAO;
 
 use Models\Room as M_Room;
+use Models\Theather as M_Theather;
 use DAO\connection as Connection;
 use PDOException;
 
@@ -21,13 +22,12 @@ class DAORoom
     /**
      *
      */
-    public function create($_room)
+    public function create($_room)  // le pasa solo el id de theatehr, pero amndarlo como objeto
     {
-
         // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
         $sql = "INSERT INTO rooms (id_theather, name , totalSeats, ticketPrice) VALUES (:id_theather, :name , :totalSeats, :ticketPrice)";
 
-        $parameters['id_theather'] = $_room->getTheather();
+        $parameters['id_theather'] = $_room->getId_theather()->getId();
         $parameters['name'] = $_room->getName();
         $parameters['totalSeats'] = $_room->getTotalSeats();
         $parameters['ticketPrice'] = $_room->getTicketPrice();
@@ -144,7 +144,7 @@ class DAORoom
        return false;
     }
 
-    public function edit($_room)
+    public function edit($_room)    // ARREGLAR
     {
 
         $sql = "UPDATE rooms SET theather = :theather, name = :name, totalSeats = :totalSeats";
@@ -192,7 +192,7 @@ class DAORoom
 
         $resp = array_map(function ($p) {
 
-            return new M_room($p["id_theather"], $p['name'], $p['id_room'], $p['totalSeats'], $p['ticketPrice'] );
+            return new M_room($p["id_theather"], $p['name'], $p['id_room'], $p['totalSeats'], $p['ticketPrice'] );  // idtheather es objeto teatro
         }, $value);
 
         return count($resp) > 1 ? $resp : $resp['0'];

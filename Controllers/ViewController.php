@@ -208,6 +208,26 @@ class ViewController
         require(VIEWS_PATH . "addMovie.php");
     }
 
+    public function viewAddTheather(){
+
+        $this->userController = new C_User;
+        $user = $this->userController->checkSession();
+
+        require(VIEWS_PATH . "addTheather.php");
+    }
+
+
+    public function viewAddRoom(){
+
+        $this->userController = new C_User;
+        $user = $this->userController->checkSession();
+
+        $this->theatherController = new C_theather;
+        $T_list = $this->theatherController->readAll();
+
+        require(VIEWS_PATH . "addRoom.php");
+    }
+
 
     public function viewAddSession(){
 

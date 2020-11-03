@@ -7,25 +7,25 @@ class Ticket
 {
     private $id_ticket;
     private $id_user;
-    private $name_room;
-    private $name_movie;
-    private $name_theather;
-    private $code;
+    //private $id_room;
+    private $id_movie;
+    private $id_theather;
+    /*private $code;
     private $date;
     private $time;
-    private $price;
+    private $price;*/
 
-    public function __construct($id_ticket = '', $id_user = '0', $name_room = '', $name_movie = '',  $name_theather = '', $code = '', $time = '', $date = '', $price = '')
+    public function __construct($id_ticket = '', $id_user = '0', $id_movie = '',  $id_theather = '')
     {
         $this->id_ticket = $id_ticket;
         $this->id_user = $id_user;
-        $this->name_room = $name_room;
-        $this->name_theather = $name_theather;
-        $this->name_movie = $name_movie;
-        $this->code = $code;
+        /*$this->id_room = $id_room;*/
+        $this->id_theather = $id_theather;
+        $this->id_movie = $id_movie;
+        /*$this->code = $code;
         $this->date = $date;
         $this->time = $time;
-        $this->price = $price;
+        $this->price = $price;*/
     }
 
 
@@ -42,37 +42,37 @@ class Ticket
         $this->id_user = $id_user;
     }
 
-    public function setName_room($name_room)
+    /*public function setid_room($id_room)
     {
 
-        $this->name_room = $name_room;
+        $this->id_room = $id_room;
     }
 
     public function setCode($code)
     {
 
         $this->code = $code;
-    }
+    }*/
 
-    public function setName_movie($name_movie)
+    public function setid_movie($id_movie)
     {
 
-        $this->name_movie = $name_movie;
+        $this->id_movie = $id_movie;
     }
 
-
+    /*
     public function setDate($date)
     {
 
         $this->date = $date;
     }
-
-    public function setName_theather($name_theather)
+*/
+    public function setid_theather($id_theather)
     {
 
-        $this->name_theather = $name_theather;
+        $this->id_theather = $id_theather;
     }
-
+    /*
     public function setTime($time){
 
         $this->time = $time;
@@ -82,7 +82,7 @@ class Ticket
     {
 
         $this->price = $price;
-    }
+    }*/
 
 
 
@@ -100,10 +100,10 @@ class Ticket
         return $this->id_user;
     }
 
-    public function getName_room()
+    public function getid_room()
     {
 
-        return $this->name_room;
+        return $this->id_room;
     }
 
     public function getCode()
@@ -112,10 +112,10 @@ class Ticket
         return $this->code;
     }
 
-    public function getName_movie()
+    public function getid_movie()
     {
 
-        return $this->name_movie;
+        return $this->id_movie;
     }
 
 
@@ -130,10 +130,10 @@ class Ticket
         return $this->date;
     }
 
-    public function getName_theather()
+    public function getid_theather()
     {
 
-        return $this->name_theather;
+        return $this->id_theather;
     }
 
     public function getPrice()

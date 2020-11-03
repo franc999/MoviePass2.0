@@ -32,41 +32,55 @@ class SessionController
         $this->ticketController = new C_Ticket;
     }
 
-
-    public function returnSession($time, $date, $id_theather, $id_movie, $id_room){
-
-        $session = new Session();
-        $session = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room);
-        return $session;
-    }
-
-    public function create($id_movie, $id_theather, $date, $time, $name_room){
+    public function create($id_movie, $id_theather, $date, $time, $name_room){  ////// ARREGLAR 
 
         $id_room = $this->roomController->getId_for_name_theather($name_room, $id_theather); // traemos el id de la sala del cine correcto
 
         $room = $this->roomController->read($id_room);         // retornamos la sala por id
 
         $price = $room->getTicketPrice();           // solicitamos el precio de entrada de la sala seleccionada
-        $session = new Session($id_theather, $id_room, $id_movie, $date, $time, $price); // creamos objeto tipo funcion
 
-        $this->dao->create($session);   // creamos la sesion 
 
-        $sessionId = new Session();
-        $sessionId = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room);
-        
-        $rmId = $sessionId->getId_Session();
+        ///////// VERIFICAMOS //////////
 
-        $session->setId_session($rmId);
+        $flag = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room, $price); /// VERIFICA SI EXISTE LA TABLA PARA NO PONER LA MISMA.
 
-        $this->dao->createTicket($session, $price);            // creamos el ticket
+        if(is_array($flag) == true){
+            
+            echo 'existe';
+            $this->viewController->viewAddSession();
 
-        //$ticket = new Ticket();
+        }else  {
 
-        //$ticket= $this->ticketController->readTicket($session);
-        //echo "$ticket";
-        //echo $ticket->getId_ticket();
+            // SE PUEDE CREAR LA SESSION ///
 
-        $this->viewController->viewList_sessions();
+            $session = new Session($id_theather, $id_room, $id_movie, $date, $time, $price); // creamos objeto SESSION
+
+            $this->dao->create($session);   // creamos la sesion 
+
+            $session2 = new Session();
+
+            $session2 = $this->dao->readForTickets($time, $date, $id_theather, $id_movie, $id_room, $price);
+
+            //echo 'ID :' . $session2->getId_session();
+
+            $session->setId_session($session2);
+
+            //echo $session->getId_Session();
+
+            if ($session2 != false){
+              $this->dao->createTicket($session, $price);            // creamos el ticket
+            }else{
+                echo 'la cree.';
+            }
+
+            //$ticket = new Ticket();
+
+            //$ticket= $this->ticketController->readTicket($session);
+            //echo "$ticket";
+            //echo $ticket->getId_ticket();
+            $this->viewController->viewList_sessions();
+        }
     }
 
 

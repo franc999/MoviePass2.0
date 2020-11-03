@@ -27,6 +27,12 @@
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddUser"?>">Añadir usuario</a>
 							</ul>
 						</li>
+						<li><a href="<?php echo FRONT_ROOT ."View/listUsers"?>">Cine</a>
+							<ul class="sub-menu">
+								<li><a href="<?php echo FRONT_ROOT ."View/viewAddTheather"?>">Añadir cine</a>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewAddRoom"?>">Añadir sala</a>
+							</ul>
+						</li>
 						<li><a href="<?php echo FRONT_ROOT ."View/viewList_sessions"?>">Funciones</a>
 							<ul class="sub-menu">
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddSession"?>">Agregar funcion</a></li>

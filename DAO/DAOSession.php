@@ -25,16 +25,16 @@ class DAOSession
       *
       */
 
-     public function createTicket ($_session, $price){
+     /*public function createTicket ($_session, $price){
 
-          $sql = "INSERT INTO ticket (id_rm, date, time, price) VALUES (:id_rm, :date, :time, :price)";
+          $sql = "INSERT INTO ticket (id_rm, date, time, price, id_theather, id_movie) VALUES (:id_rm, :date, :time, :price, :id_theather, :id_movie)";
 
           $parameters['id_rm'] = $_session->getId_session();
-          //$parameters['name_movie'] = $name_movie;         //PASAR NOMBRE PELICULA
+          $parameters['id_movie'] = $_session->getId_movie();         //PASAR NOMBRE PELICULA
           $parameters['date'] = $_session->getDate();
           $parameters['time'] = $_session->getTime();
-          $parameters['price'] = $price;
-          //$parameters['name_theather'] = $name_theather;     //PASAR NOMBRE TEATRO
+          $parameters['price'] = $_session->getPrice();
+          $parameters['id_theather'] = $_session->getId_theather();     //PASAR NOMBRE TEATRO
 
           try {
                // creo la instancia connection
@@ -44,18 +44,23 @@ class DAOSession
           } catch (PDOException $ex) {
                throw $ex;
           }
-     }
+     }*/
 
      public function create($_session){
 
           // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
-          $sql = "INSERT INTO room_x_movie (id_theather, id_room,id_movie,date,time) VALUES (:id_theather, :id_room,:id_movie,:date,:time)";
+          $sql = "INSERT INTO room_x_movie (id_theather, id_room,id_movie,date,time, price) VALUES (:id_theather, :id_room,:id_movie,:date,:time, :price)";
 
-          $parameters['id_theather'] = $_session->getId_theather();
-          $parameters['id_room'] = $_session->getId_Room();
-          $parameters['id_movie'] = $_session->getId_Movie();
+          $room = $_session->getRoom();
+          $theather = $_session->getTheather();
+          $movie = $_session->getMovie();
+
+          $parameters['id_theather'] = $theather->getId();
+          $parameters['id_room'] = $room->getId_room();
+          $parameters['id_movie'] = $movie->getId_movie();
           $parameters['date'] = $_session->getDate();
           $parameters['time'] = $_session->getTime();
+          $parameters['price'] = $room->getPrice();
 
           try {
                // creo la instancia connection
@@ -65,27 +70,6 @@ class DAOSession
           } catch (PDOException $ex) {
                throw $ex;
           }
-     }
-
-
-     /////////////// NO PROBADA ////////////////
-     public function addTicketInfo($movie, $date, $time, $theather){
-
-          $sql = "SELECT *FROM ticket where movie = :movie and date = :date and theather = :theather";
-
-          try {
-               // creo la instancia connection
-               $this->connection = Connection::getInstance();
-               // Ejecuto la sentencia.
-               return $this->connection->ExecuteNonQuery($sql, $parameters);
-          } catch (PDOException $ex) {
-               throw $ex;
-          }
-          if (!empty($resultSet)) {
-
-               return $this->mapear($resultSet);
-          } else
-               return false;
      }
 
      /*******Reads **********/
@@ -112,26 +96,29 @@ class DAOSession
      }
 
 
-     public function readForTickets($time, $date, $id_theather, $id_movie, $id_room){
+     /*public function readForTickets($time, $date, $id_theather, $id_movie, $id_room, $price){
             
-       $sql = "SELECT *FROM room_x_movie rm 
-               where rm.id_room = id_room and
-               rm.id_theather = id_theather and
-               rm.id_movie = id_movie and
-               rm.date like date and 
-               time like time";
+       /*$sql = "SELECT *FROM room_x_movie
+               where id_room = id_room and
+               id_theather = id_theather and
+               id_movie = id_movie and
+               price = 'price' and
+               date like 'date' and 
+               time like 'time' ";
+
+          $sql = "SELECT * FROM `room_x_movie` WHERE `id_room` = id_room AND `id_movie` = id_movie AND `date` = 'date' AND `time` = 'time' AND `id_theather` = id_theather AND `price` = price";
 
             $parameters['time'] = $time;
             $parameters['date'] = $date;
             $parameters['id_theather']= $id_theather;
             $parameters['id_movie']= $id_movie;
             $parameters['id_room']= $id_room;
+            $parameters['price']= $price;
 
             try {
                  $this->connection = Connection::getInstance();
-
                  $resultSet = $this->connection->execute($sql, $parameters);
-                 
+
             } catch(Exception $ex) {
                 throw $ex;
             }
@@ -139,11 +126,10 @@ class DAOSession
             if(!empty($resultSet)){
                  
              return $this->mapear($resultSet);
-            }
-                
-            else
+            }else
                  return false;
-    }
+               
+    }*/
 
      public function readAll()
      {
@@ -409,7 +395,7 @@ class DAOSession
 
           $resp = array_map(function ($p) {
 
-               return new M_Session($p["id_theather"], $p['id_room'], $p['id_movie'], $p['date'], $p['time'], , $p['price']), $p['id_rm']);
+               return new M_Session($p["id_theather"], $p['id_room'], $p['id_movie'], $p['date'], $p['time'], $p['price'], $p['id_rm']);
           }, $value);
 
           return count($resp) > 1 ? $resp : $resp['0'];

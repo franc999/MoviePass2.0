@@ -1,5 +1,10 @@
 <?php namespace Models;
 
+use Room as Room;
+use Theather as Theather;
+use Movie as Movie;
+
+
 
 class Session
 {
@@ -7,19 +12,17 @@ class Session
     private $id_theather;
     private $id_room;
     private $id_movie;
-    private $date;
     private $time;
-    private $price;
+    private $date;
 
-    public function __construct($id_theather='',$id_room='',$id_movie='',$date='',$time='',  $price='', $id_session=''){
+    public function __construct($id_theather=''/*,$id_room=''*/,$id_movie='',$id_session='', $date='', $time=''){
         
         $this->id_session=$id_session;
         $this->id_theather=$id_theather;
-        $this->id_room=$id_room;
+        //$this->id_room=$id_room;
         $this->id_movie=$id_movie;
         $this->date=$date;
         $this->time=$time;
-        $this->price=$price;
     }
 
     ////////////** SETTERS *//////////////////
@@ -29,17 +32,17 @@ class Session
         $this->id_session=$id_session;
     }
 
-    public function setId_theather($id_theather){
+    public function setTheather($id_theather){
 
         $this->id_theather=$id_theather;
     }
 
-    public function setId_room($id_room)
+    /*public function setRoom($id_room)
     {
         $this->id_room=$id_room;
-    }
+    }*/
 
-    public function setId_movie($id_movie)
+    public function setMovie($id_movie)
     {
         $this->id_movie=$id_movie;
     }
@@ -54,32 +57,28 @@ class Session
         $this->time=$time;
     }
 
-    public function setPrice($price){
-
-        $this->price=$price;
-    }
-
     ////////////** GETTERS *//////////////////
 
     public function getId_session()
     {
         return $this->id_session;
     }
-
-    public function getId_theather(){
+    
+    public function getTheather(){
 
         return $this->id_theather;
     }
-
-    public function getId_room()
+/*
+    public function getRoom()
     {
         return $this->id_room;
-    }
-    public function getId_movie()
+    }*/
+    
+    public function getMovie()
     {
         return $this->id_movie;
     }
-
+   
     public function getDate()
     {
         return $this->date;
@@ -88,11 +87,6 @@ class Session
     public function getTime()
     {
         return $this->time;
-    }
-
-    public function getPrice(){
-
-        return $this->price;
     }
 }
 

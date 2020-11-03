@@ -46,7 +46,7 @@ include("nav-bar-admin.php");
       </div>
 
       <!-- Filtro end -->
-      <form action="<?php echo FRONT_ROOT . "Movie/delete" ?>" method="POST">
+      
         <div class="scrollable">
           <table style="text-align:center;" class="table table-responsive table-bordered">
             <thead class="table-active">
@@ -57,6 +57,7 @@ include("nav-bar-admin.php");
                 <th style="width: 5%;">Edad</th>
                 <th style="width: 35%;">Cartelera</th>
                 <th style="width: 10%;">Eliminar</th>
+                <th style="width: 10%;">Editar</th>
               </tr>
             </thead>
             <tbody>
@@ -64,6 +65,7 @@ include("nav-bar-admin.php");
                 foreach ($M_list as $list) {
                   ?>
                   <tr>
+                  <form action="<?php echo FRONT_ROOT . "Movie/delete" ?>" method="POST">
                     <td><?php echo $list->getId() ?></td>
                     <td><?php echo $list->getTitle() ?></td>
                     <td><?php echo $list->getCategory() ?></td>
@@ -72,7 +74,14 @@ include("nav-bar-admin.php");
                     <td>
                       <button type="submit" name="id" class="btn btn-danger" value="<?php echo $list->getId() ?>"> Elminar </button>
                     </td>
+                  </form>
+                  <form action="<?php echo FRONT_ROOT . "Movie/edit" ?>" method="POST">
+                    <td>
+                      <button type="submit" name="id" class="btn btn-warning" value="<?php echo $list->getId() ?>"> Editar </button>
+                    </td>
+                  </form>
                   </tr>
+
               <?php
                 }
               }
@@ -83,4 +92,3 @@ include("nav-bar-admin.php");
     </div>
   </main>
 </div>
-</form>

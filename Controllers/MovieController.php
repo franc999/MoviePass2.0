@@ -90,4 +90,10 @@ class MovieController
         $this->viewController->adminCartelera();
     }
 
+    public function edit($id){
+
+        $this->dao->edit($id);
+        $this->viewController->adminCartelera();
+    }
+
 }?>

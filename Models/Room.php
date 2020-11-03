@@ -4,15 +4,15 @@
 class Room
 {
     private $id_room;
-    private $id_theather;
+    private $id_theather;   // guarda objeto cine pero solo el ID
     private $name;
     private $ticketPrice;
     private $totalSeats;
 
 
-    public function __construct($id_theather='',$name='',$id_room='', $totalSeats='', $ticketPrice=''){
+    public function __construct($name='', $ticketPrice='', $totalSeats='', $id_theather = ''){
         
-        $this->id_room=$id_room;
+        $this->id_room='';
         $this->id_theather=$id_theather;
         $this->name=$name;
         $this->ticketPrice=$ticketPrice;

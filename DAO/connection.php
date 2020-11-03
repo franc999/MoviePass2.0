@@ -76,5 +76,27 @@
             }
                
         }
+        /*
+        public function executeObject ($query, $parameters = array()){
+
+            try{
+
+                // creo una sentencia llamando a prepare, devuelve objeto statament
+                $this->pdoStatament = $this->pdo->prepare($query);
+
+                foreach($parameters as $parameterName => $value){
+
+                    $this->pdoStatament->bindParam(":$parameterName", $parameters[$parameterName]);
+                }
+
+                $this->pdoStatament->execute();
+                return $this->pdoStatament->fetch_object();
+
+            }catch(\PDOException $ex){
+
+                throw $ex;
+            }
+               
+        }*/
     }
 

@@ -1,6 +1,7 @@
 <?php namespace Controllers;
 
 use Models\Room as Room;
+use Models\Theather as Theather;
 
 
 use Controllers\ViewController as C_View;
@@ -10,10 +11,7 @@ use DAO\DAORoom as Dao;
 class RoomController{
 
     protected $dao;
-    
     private $viewController;
-
-
 
 
     function __construct()
@@ -24,16 +22,13 @@ class RoomController{
     }
 
 
-    public function create($theather,$name,$tickets)
-    {           
-            
+    public function create($name, $price, $seats, $id_theather)
+    {       
+            $theather = new Theather();
+            $theather->setId($id_theather);
 
-            $room = new Room($theather,$name,$tickets);
-            
-
+            $room = new Room($name, $price, $seats, $theather);
             $this->dao->create($room);
-
-  
     }
 
     public function read($id){
