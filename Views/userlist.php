@@ -43,7 +43,7 @@
                       <td><?php echo $user->getUserName() ?></td>
                       <td><?php echo $user->getEmail() ?></td>
                       <td>
-                        <button type="submit" name="email" class="btn btn-danger" value="<?php echo $user->getEmail() ?>"> Remove </button>
+                        <button type="submit" name="email" class="btn btn-danger" onclick = "return confirmDelete()" value="<?php echo $user->getEmail() ?>"> Remove </button>
                       </td>
                     </tr>
                   <?php

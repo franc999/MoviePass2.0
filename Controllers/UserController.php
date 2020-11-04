@@ -148,8 +148,12 @@ class UserController
 
     public function login($email = '', $pass = '')
     {
+        $pos = strpos($email, '@');
 
-        $user = $this->dao->read($email);
+        if ( $pos == true )
+            $user = $this->dao->read($email);
+        else
+            $user = $this->dao->readUser($email);   // lee nombre user
 
         if ($user) {
             if ($user->getPassword() == $pass) {

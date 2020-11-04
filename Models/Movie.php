@@ -7,16 +7,16 @@ class Movie
 
     private $id;
     private $title;
-    private $category;
+    private $genre;
     private $age;
     private $img;
 
 
-    public function __construct($id = '', $title = '', $category = '', $age = '', $img = ''){
+    public function __construct($id = '', $title = '', $genre = '', $age = '', $img = ''){
 
         $this->id = $id;
         $this->title = $title;
-        $this->category = $category;
+        $this->genre = $genre;
         $this->age = $age;
         $this->img = $img;
     }
@@ -35,10 +35,10 @@ class Movie
         $this->title = $title;
     }
 
-    public function setCategory($category)
+    public function setGenre($genre)
     {
 
-        $this->category = $category;
+        $this->genre = $genre;
     }
 
     public function setAge($age)
@@ -65,10 +65,10 @@ class Movie
         return $this->title;
     }
 
-    public function getCategory()
+    public function getGenre()
     {
 
-        return $this->category;
+        return $this->genre;
     }
 
     public function getAge()

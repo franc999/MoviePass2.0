@@ -22,12 +22,14 @@
               public function create($_movie) {
 
                    // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
-                   $sql = "INSERT INTO movies (title,category,age, img) VALUES (:title, :category, :age, :img)";
+                   $sql = "INSERT INTO movies (title, id_genre, age, img) VALUES (:title, :genre, :age, :img)";
 
                    $parameters['title'] = $_movie->getTitle();
-                   $parameters['category'] = $_movie->getCategory();
+                   $parameters['genre'] = $_movie->getGenre()->getId_genre();
                    $parameters['age'] = $_movie->getAge();
                    $parameters['img'] = $_movie->getImg();
+
+                   
 
                    try {
                          // creo la instancia connection
@@ -36,6 +38,7 @@
                     return $this->connection->ExecuteNonQuery($sql, $parameters);
 
                 } catch(PDOException $ex) {
+                    
                        throw $ex;
                   }
               }
@@ -67,12 +70,11 @@
               }
 
 
-              public function readForCategory($category) {
+              public function readForGenre($genre) {
         
-                $sql = "SELECT * FROM movies
-                 where category = :category";
+                $sql = "SELECT DISTINCT genre FROM movies";
     
-                $parameters['category'] = $category;
+                $parameters['genre'] = $genre;
     
                 try {
                     $this->connection = Connection::getInstance();
@@ -85,7 +87,7 @@
 
                 if(!empty($resultSet)){
                     
-                return $this->mapear($resultSet);
+                return $this->mapearGenre($resultSet);
                 }
                     
                 else
@@ -119,6 +121,7 @@
               
 
               public function readAll() {
+
                    $sql = "SELECT * FROM movies";
 
                    try {
@@ -142,10 +145,10 @@
 
               public function edit($_movie) {
 
-                   $sql = "UPDATE movies SET title = :title, category = :category, age = :age";
+                   $sql = "UPDATE movies SET title = :title, genre = :genre, age = :age";
 
                    $parameters['title'] = $_movie->getTitle();
-                   $parameters['category'] = $_movie->getCategory();
+                   $parameters['genre'] = $_movie->getGenre();
                    $parameters['age'] = $_movie->getAge();
     
                    try {
@@ -186,7 +189,7 @@
 
                 $resp = array_map(function($p){
                     
-                    return new M_Movie($p['id_movie'], $p['title'], $p['category'], $p['age'], $p['img']);  
+                    return new M_Movie($p['id_movie'], $p['title'], $p['id_genre'], $p['age'], $p['img']);  
                 }, $value);
                     
                    return count($resp) > 1 ? $resp : $resp['0'];

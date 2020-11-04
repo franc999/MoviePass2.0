@@ -1,4 +1,4 @@
-drop database moviepass;
+drop database MoviePass;
 create database MoviePass;
 use MoviePass;
 
@@ -9,16 +9,19 @@ create table users ( id int auto_increment primary key, level int not null, name
 					 password varchar(60) not null, email varchar(80) not null UNIQUE);
 
 
+create table genre ( id_genre int auto_increment primary key, name varchar(50) not null );
+
 
 /************************Tabla de Peliculas*****************************/
-create table movies ( id_movie int auto_increment primary key, title varchar(80) not null,
-					  age varchar(10) not null, category varchar(40) not null, img varchar(80) not null);
+create table movies ( id_movie int auto_increment primary key, title varchar(80) not null, id_genre int not null,
+				      foreign key (id_genre) references genre(id_genre) ,
+					  age varchar(10) not null, img varchar(80) not null);
 
 
 
 /***********************************Tabla Cines**********************************/
 
-CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null, adress varchar(30) not null);
+CREATE TABLE theathers ( id_theather int auto_increment primary key, name varchar(30) not null, adress varchar(30) not null, room int not null);
 
 
 
@@ -42,11 +45,8 @@ create table room_x_movie (id_rm int auto_increment primary key, id_room int not
 /***********************************Tabla ticket**********************************/
 
 create table ticket (id_ticket int auto_increment primary key, id_rm int default(0), id_user int not null, id_movie int not null,
-					 date date not null, time time not null, price float not null, code varchar(100) not null, id_theather int not null,
+					 date date not null, time time not null, timeEnd time not null, price float not null, code varchar(100) not null, id_theather int not null,
 					 foreign key (id_rm) references room_x_movie(id_rm) ON DELETE CASCADE);
-
-
-
 
 /**********************Tabla de ventas****************************************/
 
@@ -64,14 +64,20 @@ create table purchases (id_purchase int auto_increment primary key, id_user int 
 insert into users (level,name, lastname, username, password, email) values (0, "nombre", "apellido", "admin", "admin", "admin@gmail.com");
 insert into users (level,name, lastname, username, password, email) values (1, "nombre2", "apellido2", "admin2", "admin2", "admin2@gmail.com");
 
+/*** GENERO ***/
+
+insert into genre (name) values ("Accion");
+insert into genre (name) values ("Comedia");
+insert into genre (name) values ("Terror");
+
 
 /*Volcado de peliculas*/
 
-insert into movies (title, age, category, img) values ("Joker", "18", "Accion","Views/layout/img/joker.jpg");
-insert into movies (title, age, category, img) values ("Geminis", "16", "Accion","Views/layout/img/geminis.jpg");
-insert into movies (title, age, category, img) values ("Mujer Maravilla", "APT", "Accion",'Views/layout/img/MujerMaravilla.jpg');
-insert into movies (title, age, category, img) values ("Toy Story 4", "APT", "Infantil",'Views/layout/img/ToyStory4.jpg');
-insert into movies (title, age, category, img) values ("Avengers EndGame", "13", "Accion",'Views/layout/img/avengersEndGame.jpg');
+insert into movies (title, age, id_genre, img) values ("Joker", "18", 1,"Views/layout/img/joker.jpg");
+insert into movies (title, age, id_genre, img) values ("Geminis", "16", 1,"Views/layout/img/geminis.jpg");
+insert into movies (title, age, id_genre, img) values ("Mujer Maravilla", "APT", 1,'Views/layout/img/MujerMaravilla.jpg');
+insert into movies (title, age, id_genre, img) values ("Toy Story 4", "APT", 3,'Views/layout/img/ToyStory4.jpg');
+insert into movies (title, age, id_genre, img) values ("Avengers EndGame", "13", 2,'Views/layout/img/avengersEndGame.jpg');
 
 
 /*Volcado a de cines*/
@@ -79,8 +85,9 @@ insert into movies (title, age, category, img) values ("Avengers EndGame", "13",
 insert into theathers( name, adress)  values ('Ambassador', 'avenida 1');  
 insert into theathers( name, adress) values ('Cines Paseo Aldrey', 'paseo 2');
 insert into theathers( name, adress) values ('Cine del Paseo', 'paseo 3');
-insert into theathers( name, adress) values ('Cine del Paseo', 'avenida 7');
+insert into theathers( name, adress) values ('Cine del Paseo NARNIO', 'avenida 7');
 insert into theathers( name, adress) values ('Los Gallegos Shopping', 'calle 12'); 
+
 
 
 /* Volcado de tickets */
@@ -141,9 +148,6 @@ insert into room_x_movie(id_room,id_movie,date,time)values(18,3,'2019-12-04',' 1
 insert into room_x_movie(id_room,id_movie,date,time)values(19,3,'2019-12-04',' 19:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(20,3,'2019-12-06',' 22:00');*/
 
-select *from rooms;
-
-select *from room_x_movie;
-
-SELECT *FROM room_x_movie where id_room = 1  and
-			 id_movie = 1 and date like "2020-11-01" and time like "16:30:00" and price = 300;
+select *from theathers;
+select *from movies;
+select *from genre;

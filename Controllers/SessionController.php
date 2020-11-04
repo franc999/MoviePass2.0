@@ -32,7 +32,7 @@ class SessionController
         $this->ticketController = new C_Ticket;
     }
 
-    public function create($id_movie, $id_theather, $date, $time, $name_room){  ////// ARREGLAR 
+    /*public function create($id_movie, $id_theather, $date, $time, $name_room){  ////// ARREGLAR 
 
         $id_room = $this->roomController->getId_for_name_theather($name_room, $id_theather); // traemos el id de la sala del cine correcto
 
@@ -81,8 +81,13 @@ class SessionController
             //echo $ticket->getId_ticket();
             $this->viewController->viewList_sessions();
         }
-    }
+    }*/
 
+
+    public function create ($id_movie, $id_theather, $date, $time, $name_room){
+
+        
+    }
 
 
     public function readAll()

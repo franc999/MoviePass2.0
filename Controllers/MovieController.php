@@ -1,6 +1,7 @@
 <?php namespace Controllers;
 
 use Models\Movie as Movie;
+use Models\Genre as Genre;
 use DAO\DAOMovie as Dao;
 
 use Controllers\ViewController as C_View;
@@ -14,14 +15,16 @@ class MovieController
     {
        // $this->dao = Dao::getInstance();
        $this->dao= new Dao;
-        $this->viewController = new C_View;
+       $this->viewController = new C_View;
     }
     /*
     *
     */
 
-    public function create($title, $category, $age, $img){  
+    public function create($title, $id_genre, $age, $img){  
             
+            $genre = new Genre($id_genre,'');
+
             $foto = $_FILES['foto']['name']; // obtiene el nombre 
             $ruta = $_FILES['foto']['tmp_name']; // obtiene el archivo
             $destino = "Views/layout/img/".$foto;
@@ -30,11 +33,10 @@ class MovieController
             //= move_uploaded_file($foto, $destino);
 
             if($verifica == true){
+                $movie = new Movie("", $title, $genre, $age, $destino);
                 
-                $movie = new Movie(0, $title, $category, $age, $destino);
             }else{
-                
-                $movie = new Movie("", $title, $category, $age, "");
+                $movie = new Movie("", $title, $genre, $age, "");
             }
             $this->dao->create($movie);
             $this->viewController->adminCartelera();

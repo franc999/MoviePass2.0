@@ -18,29 +18,47 @@
 					<ul class="main-menu primary-menu">
 						<li><a href="<?php echo FRONT_ROOT ."View/home"?>">Inicio</a></li>
 						<li><a href="<?php echo FRONT_ROOT ."View/adminCartelera"?>">Cartelera</a>
+
+						</li>
+						<li><a href="#">Pelicula</a>
 							<ul class="sub-menu">
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddMovie"?>">Añadir pelicula</a></li>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewAddGenree"?>">Añadir genero</a></li>
 							</ul>
 						</li>
-						<li><a href="<?php echo FRONT_ROOT ."View/listUsers"?>">Usuarios</a>
+						<li><a href="#">Usuarios</a>
 							<ul class="sub-menu">
+							<li><a href="<?php echo FRONT_ROOT ."View/listUsers"?>">Lista de usuarios</a>
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddUser"?>">Añadir usuario</a>
 							</ul>
 						</li>
-						<li><a href="<?php echo FRONT_ROOT ."View/listUsers"?>">Cine</a>
+						<li><a href="#">Cine</a>
 							<ul class="sub-menu">
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddTheather"?>">Añadir cine</a>
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddRoom"?>">Añadir sala</a>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewListTheather"?>">Lista de cines</a>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewListRoom"?>">Lista de salas</a>
 							</ul>
 						</li>
-						<li><a href="<?php echo FRONT_ROOT ."View/viewList_sessions"?>">Funciones</a>
+						<li><a href="#">Funciones</a>
 							<ul class="sub-menu">
-								<li><a href="<?php echo FRONT_ROOT ."View/viewAddSession"?>">Agregar funcion</a></li>
+							<li><a href="<?php echo FRONT_ROOT ."View/viewList_sessions"?>">Lista de funciones</a></li>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewAddSession"?>">Añadir funcion</a></li>
 							</ul>
 						</li>
 					</ul>
 				</nav>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+                 function confirmDelete(){
+                    var respuesta = confirm ("Estas seguro que deseas eliminar, esto puede borrar otras tablas relacionadas con esta");
+                    if(respuesta == true)
+                        return true
+                    else
+                        return false;
+              }</script>
+
 	</header>
 	<!-- Header section end -->

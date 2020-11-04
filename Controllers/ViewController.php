@@ -5,8 +5,10 @@ use Controllers\MovieController as C_Movie;
 use Controllers\TheatherController as C_theather;
 use Controllers\SessionController as C_Session;
 use Controllers\RoomController as C_Room;
+use Controllers\GenreController as C_Genre;
 
 use models\User as M_User;
+use models\Genre as M_Genre;
 use models\Movie as M_Movie;
 use models\Room as M_Room;
 
@@ -18,6 +20,7 @@ class ViewController
     private $theatherController;
     private $sessionController;
     private $roomController;
+    private $genreController;
 
     public function __construct()
     { }
@@ -190,6 +193,9 @@ class ViewController
 
     /**Metodos Administrador */
 
+
+    // ADDS ///
+
     public function viewAddUser()
     {
 
@@ -199,11 +205,21 @@ class ViewController
         require(VIEWS_PATH . "addUser.php");
     }
 
+    public function viewAddGenre(){
+
+        $this->userController = new C_User;
+        $user = $this->userController->checkSession();
+
+        require(VIEWS_PATH . "addGenre.php");
+    }
 
     public function viewAddMovie(){
 
         $this->userController = new C_User;
         $user = $this->userController->checkSession();
+
+        $this->genreController = new C_Genre;
+        $G_list = $this->genreController->readAll();
 
         require(VIEWS_PATH . "addMovie.php");
     }
@@ -228,11 +244,10 @@ class ViewController
         require(VIEWS_PATH . "addRoom.php");
     }
 
-
     public function viewAddSession(){
 
         $this->userController = new C_User;
-        $user = $this->userController->checkSession();
+        $user = $this->userController->checkSession();  ////// PASAR ID USER PAR EL TICKET ////////// EN CREAR TICKET
 
         $this->theatherController = new C_theather;
         $T_list = $this->theatherController->readAll();
@@ -243,13 +258,42 @@ class ViewController
         require(VIEWS_PATH . "addSession.php");
     }
 
+    ///////////********** EDITS *****************///
+
+
+    public function editTheather(){
+
+        
+    }
+
+    ///////////********** LISTADOS **************///
+
+
+    public function viewListTheather(){
+
+        $this->userController = new C_User;
+        $user = $this->userController->checkSession();
+
+        $this->theatherController = new C_theather;
+        $T_list = $this->theatherController->readAll();
+
+        require(VIEWS_PATH . "viewListTheathers.php");
+    }
+
+    public function viewListRoom(){
+
+        $this->theatherController = new C_theather;
+        $T_list = $this->theatherController->readAll();
+
+        require(VIEWS_PATH . "pruebaQR.php");
+    }
 
     public function adminCartelera()
     {
 
         $this->userController = new C_User;
         $user = $this->userController->checkSession();
-
+        
         if (isset($_GET["category"])) {
 
             $category = $_GET["category"];
@@ -277,6 +321,8 @@ class ViewController
 
     }
 
+
+    /// ADMIN SETTINGS ///
 
     public function viewsAdminSettings()            //  por definir
     {

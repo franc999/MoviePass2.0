@@ -21,12 +21,23 @@ class TheatherController
     */
 
     
-    public function create($name,$adress,$price,$full_capacity){
+    public function create($name, $adress){
 
-            $theather = new Theather(0,$name,$adress,$price,$full_capacity);
-            
+            $theather = new Theather('',$name, $adress);
+
             $this->dao->create($theather);
-            $this->viewController->cartelera();
+            $this->viewController->viewListTheather();
+    }
+
+    public function addRoom($room, $id_theather){
+
+        $theather = new Theather();
+        $theather = $this->dao->read($id_theather);
+
+        $theather->setId_room($room);
+
+        $this->dao->addRoom($room, $id_theather);
+        $this->viewController->viewListTheather();
     }
 
 
@@ -56,6 +67,11 @@ class TheatherController
     }
 
 
+    public function edit($name, $adress, $room){
+
+        
+    }
+
     public function readadress($cat){
 
         //DEVUELVE EL user CON ESE EMAIL EN CASO DE EXSISTIR
@@ -66,6 +82,6 @@ class TheatherController
     public function delete($id){
         
         $this->dao->delete($id);
-        $this->viewController->cartelera();   
+        $this->viewController->viewListTheather();   
     }
 }?>

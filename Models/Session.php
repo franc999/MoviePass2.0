@@ -4,18 +4,17 @@ use Room as Room;
 use Theather as Theather;
 use Movie as Movie;
 
-
-
 class Session
 {
     private $id_session;
-    private $id_theather;
-    private $id_room;
+    private $id_theather;   /// guardar tambien el ID ROOM
+    //private $id_room;
     private $id_movie;
     private $time;
+    private $timeEnd;
     private $date;
 
-    public function __construct($id_theather=''/*,$id_room=''*/,$id_movie='',$id_session='', $date='', $time=''){
+    public function __construct($id_theather=''/*,$id_room=''*/,$id_movie='',$id_session='', $date='', $time='', $timeEnd=''){
         
         $this->id_session=$id_session;
         $this->id_theather=$id_theather;
@@ -23,6 +22,7 @@ class Session
         $this->id_movie=$id_movie;
         $this->date=$date;
         $this->time=$time;
+        $this->timeEnd=$timeEnd;
     }
 
     ////////////** SETTERS *//////////////////
@@ -57,6 +57,11 @@ class Session
         $this->time=$time;
     }
 
+    public function setTimeEnd($timeEnd)
+    {
+        $this->timeEnd=$timeEnd;
+    }
+
     ////////////** GETTERS *//////////////////
 
     public function getId_session()
@@ -87,6 +92,11 @@ class Session
     public function getTime()
     {
         return $this->time;
+    }
+
+    public function getTimeEnd()
+    {
+        $this->timeEnd;
     }
 }
 

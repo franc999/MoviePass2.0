@@ -24,10 +24,9 @@ include("nav-bar-admin.php");?>
           <table style="text-align:center;" class="table table-responsive table-bordered">
             <thead class="table-active">
               <tr>
-                <th style="width: 15%;">Titulo Pelicula</th>
+                <th style="width: 15%;">Titulo</th>
                 <th style="width: 15%;">Categoria</th>
                 <th style="width: 15%;">Restriccion Edad</th>
-                <th style="width: 15%;">Cine</th>
                 <th style="width: 30%;">Portada</th>
                 <th style="width: 10%;"></th>
               </tr>
@@ -38,16 +37,15 @@ include("nav-bar-admin.php");?>
                 <td><input type='text' name='title' required></td>
 
                 <td>
-                    <select name='category' required>
-                    
-                        <option value='Accion'>Accion</option>
-                        <option value='Thriller'>Terror</option>
-                        <option value='Drama'>Drama</option>
-                        <option value='Comedy'>Comedia</option>
-                        <option value='Romance'>Romance</option>
-                        <option value='Musical'>Musical</option>
-                
-                    </select>
+                    <select name='id_genre' required>
+                        <option>Selecciona el genero</option>
+
+                         <?php foreach ($G_list as $key => $genre) { 
+                              
+                           ?>
+                           <option value="<?php echo $genre->getId_genre();  ?>"><?php echo $genre->getName(); ?></option>
+                        <?php } ?>
+                    </select> 
                 </td>
 
                 <td>                   
@@ -57,24 +55,18 @@ include("nav-bar-admin.php");?>
                         <option value='13'>+13</option>
                         <option value='16'>+16</option>
                         <option value='18'>+18</option>
-                    </select></td>
-                
-                <td>
-                  <select name='Theather'>
-                      
-                      <option value='0'>Ambassador</option>
-                      <option value='1'>Cines Paseo Aldrey</option>
-              
-                  </select>
+                    </select>
                 </td>
 
                 <td>
                 
-                  <input type="file" name="foto" id="foto"/> 
+                  <input type="file" name="foto" id="foto"> 
                 
                 </td>
 
-                <td><button type="submit" class="btn btn-success" > Aceptar </button></td>
+                <td>
+                  <button type="submit" class="btn btn-success" > Aceptar </button>
+                </td>
 
             </tr>
             </tbody>

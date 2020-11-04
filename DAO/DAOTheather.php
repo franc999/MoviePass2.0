@@ -32,11 +32,29 @@
                          // Ejecuto la sentencia.
                     return $this->connection->ExecuteNonQuery($sql, $parameters);
 
-                } catch(PDOException $ex) {
+                    }catch(PDOException $ex) {
                        throw $ex;
-                  }
+                    }
               }
               
+
+              public function addRoom($room, $id_theather){
+
+                    $sql = "UPDATE theathers SET room = :room where id_theather = :id_theather";
+
+                    echo $room->getId_room();
+                    $parameters['room'] = $room->getId_room();
+                    $parameters['id_theather'] = $id_theather;
+
+                    try {
+                         // creo la instancia connection
+                         $this->connection = Connection::getInstance();
+                         // Ejecuto la sentencia.
+                         return $this->connection->ExecuteNonQuery($sql, $parameters);
+                    }catch(\PDOException $ex) {
+                         throw $ex;
+                    }
+              }
 
               /*public function createWroom ($id_theather, $_room){
 
@@ -152,7 +170,7 @@
 
                 $resp = array_map(function($p){
                     
-                    return new M_theather($p['id_theather'], $p['name']);  
+                    return new M_theather($p['id_theather'],$p['name'], $p['adress']);  
                 }, $value);
                     
                    return count($resp) > 1 ? $resp : $resp['0'];

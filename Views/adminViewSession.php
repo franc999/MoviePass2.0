@@ -67,7 +67,7 @@ include("nav-bar-admin.php"); ?>
                     <td><?php echo $list->getDate() ?></td>
                     <td><?php echo $list->getTime() ?></td>
                     <td>
-                      <button type="submit" name="id" class="btn btn-danger" value="<?php echo $list->getId() ?>"> Elminar </button>
+                      <button type="submit" name="id" class="btn btn-danger"onclick = "return confirmDelete()" value="<?php echo $list->getId() ?>"> Elminar </button>
                     </td>
                   </tr>
               <?php

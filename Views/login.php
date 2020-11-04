@@ -19,7 +19,14 @@ include_once("header.php");
 	<link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT . "Views/layout/styles/login.css"?>">
 <!--===============================================================================================-->
 
+	<style>
+	
+		show_password#{
 
+			display :inline;
+		}
+
+	</style>
 	
 	<div class="container-login100" style="background-image: url('../Views/layout/img/bg-01.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
@@ -28,14 +35,20 @@ include_once("header.php");
 					Sign In
 				</span>
 
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="username" placeholder="username or email">
-					<span class="focus-input100"></span>
+				
+				<div class="input-group" data-validate="Enter username or email">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
+						<input class="input100" type="text" name="username" placeholder="username or email" required>
 				</div>
 
-				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" name="password" placeholder="password">
-					<span class="focus-input100"></span>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<input ID="txtPassword" class="input100" type="password" name="password" placeholder="password" required>
+					
+						<div class="input-group-append">
+							<button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+						</div>
+					</span>
 				</div>
 
 				<div class="container-login100-form-btn">
@@ -89,6 +102,26 @@ include_once("header.php");
 	<script src="<?php echo FRONT_ROOT . "Views/layout/styles/vendor/daterangepicker/daterangepicker.js"?>"></script>
 <!--===============================================================================================-->
 	<script src="<?php echo FRONT_ROOT . "Views/layout/styles/vendor/countdowntime/countdowntime.js"?>"></script>
+
+			<script type="text/javascript">
+		function mostrarPassword(){
+			var cambio = document.getElementById("txtPassword");
+			if(cambio.type == "password"){
+				cambio.type = "text";
+				$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+			}else{
+				cambio.type = "password";
+				$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+			}
+		} 
+	
+		$(document).ready(function () {
+			//CheckBox mostrar contraseña
+			$('#ShowPassword').click(function () {
+				$('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+			});
+		});
+		</script>
 <!--===============================================================================================-->
 
 

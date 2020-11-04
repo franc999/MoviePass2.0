@@ -10,7 +10,7 @@ class Ticket
     //private $id_room;
     private $id_movie;
     private $id_theather;
-    /*private $code;
+    private $code;/*
     private $date;
     private $time;
     private $price;*/
@@ -22,8 +22,8 @@ class Ticket
         /*$this->id_room = $id_room;*/
         $this->id_theather = $id_theather;
         $this->id_movie = $id_movie;
-        /*$this->code = $code;
-        $this->date = $date;
+        $this->code = $code;
+        /*$this->date = $date;
         $this->time = $time;
         $this->price = $price;*/
     }

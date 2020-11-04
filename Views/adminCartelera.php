@@ -9,7 +9,7 @@ include("nav-bar-admin.php");
   <div class="page-info">
     <h2>Lista de Peliculas</h2>
     <div class="site-breadcrumb">
-      <a href="">Administrar</a> /
+      <a href="<?php echo FRONT_ROOT . "view/adminCartelera" ?>">Administrar</a> /
       <span>Peliculas</span>
     </div>
   </div>
@@ -27,17 +27,16 @@ include("nav-bar-admin.php");
       <div style="background: #ffffff;">
 
         <form action="<?php echo FRONT_ROOT . "view/adminCartelera" ?>" method="GET">
+          
           <div class="form-group">
-            <select style="width:350px" name="category" class="custom-select" required>
-              <option value=''>Seleccione una categoria</option>
-              <option value='Accion'>Accion</option>
-              <option value='Thriller'>Terror</option>
-              <option value='Drama'>Drama</option>
-              <option value='Comedy'>Comedia</option>
-              <option value='Romance'>Romance</option>
-              <option value='Musical'>Musical</option>
+              <select name='category'>
+                        <option>Selecciona la pelicula</option>
 
-            </select>
+                         <?php foreach ($M_list as $key => $movie) {
+                           ?>
+                        <option value="<?php echo $movie->getCategory();  ?>"><?php echo $movie->getCategory(); ?></option>
+                        <?php } ?>
+              </select> 
             <button type="submit" class="btn btn-primary">Buscar</button>
           </div>
 
@@ -72,7 +71,7 @@ include("nav-bar-admin.php");
                     <td><?php echo $list->getAge() ?></td>
                     <td><img src="<?php echo FRONT_ROOT . $list->getImg()?>" width="100" height="100"></td>
                     <td>
-                      <button type="submit" name="id" class="btn btn-danger" value="<?php echo $list->getId() ?>"> Elminar </button>
+                      <button type="submit" name="id" class="btn btn-danger" onclick = "return confirmDelete()" value="<?php echo $list->getId() ?>"> Elminar </button>
                     </td>
                   </form>
                   <form action="<?php echo FRONT_ROOT . "Movie/edit" ?>" method="POST">

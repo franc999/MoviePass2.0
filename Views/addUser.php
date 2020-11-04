@@ -26,11 +26,11 @@ include("nav-bar-admin.php");?>
               <tr>
                 <th style="width: 10%;">Nombre</th>
                 <th style="width: 10%;">Apellido</th>
-                <th style="width: 10%;">Nombre user</th>
+                <th style="width: 10%;">User</th>
                 <th style="width: 20%;">Email</th>
-                <th style="width: 15%;">Contraseña</th>
+                <th style="width: 10%;">Contraseña</th>
                 <th style="width: 5%;">Level</th>
-                <th style="width: 10%;"></th>
+                <th style="width: 5%;"></th>
               </tr>
             </thead>
             <tbody>

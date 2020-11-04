@@ -5,20 +5,26 @@ use Models\Theather as Theather;
 
 
 use Controllers\ViewController as C_View;
+use Controllers\TheatherController as C_Theather;
 
+use DAO\DAOTheather as DaoT;
 use DAO\DAORoom as Dao;
 
 class RoomController{
 
     protected $dao;
     private $viewController;
-
+    
+    private $daoT;
+    private $theatherController;
 
     function __construct()
     {
         $this->dao= new Dao;
-        
         $this->viewController = new C_View;
+
+        $this->daoT = new DaoT;
+        $this->theatherController = new C_Theather;
     }
 
 
@@ -27,8 +33,19 @@ class RoomController{
             $theather = new Theather();
             $theather->setId($id_theather);
 
-            $room = new Room($name, $price, $seats, $theather);
-            $this->dao->create($room);
+            if (is_numeric($price) && is_numeric($seats)){          /// SI NO SON NUMEROS NO AGREGA ******* VALIDACION *********///
+
+                $room = new Room($name, $price, $seats, $theather);
+                $this->dao->create($room);
+
+                $this->theatherController->addRoom($room, $id_theather);
+
+                $this->viewController->viewListRoom();
+            }else{
+                
+                echo '<p class="alert alert-success agileits" role="alert"> El precio o los asientos ingresados no corresponden a un valor numerico.!p>';
+                $this->viewController->viewListRoom();
+            }
     }
 
     public function read($id){

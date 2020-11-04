@@ -41,7 +41,7 @@ include("nav-bar-admin.php");?>
                 </td>
 
                 <td>                   
-                    <input type="numer" name='seats' id='seats' min="1" max="350" required>>
+                    <input type="numer" name='seats' id='seats' min="1" max="350" required>
             
                 </td>
                 

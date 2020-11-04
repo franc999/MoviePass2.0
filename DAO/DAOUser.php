@@ -43,6 +43,30 @@
                          return false;
                }   
 
+               public function readUser($_user) {
+               
+                    $sql = "SELECT * FROM users where username = :user";
+
+
+                    $parameters['user'] = $_user;
+
+                    try {
+                         $this->connection = Connection::getInstance();
+
+                         $resultSet = $this->connection->execute($sql, $parameters);
+                         
+                    }catch(Exception $ex) {
+                    throw $ex;
+                    }
+                    if(!empty($resultSet)){
+                         
+                         return $this->mapear($resultSet);
+                    }
+                    
+                    else
+                         return false;
+               }   
+
 
               public function create($_user) {
 

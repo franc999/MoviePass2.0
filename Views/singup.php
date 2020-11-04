@@ -26,27 +26,27 @@
 				</span>
 
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="name" placeholder="Nombre">
+					<input class="input100" type="text" name="name" placeholder="Nombre" required>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="lastname" placeholder="Apellido">
+					<input class="input100" type="text" name="lastname" placeholder="Apellido" required>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="text" name="username" placeholder="username">
+					<input class="input100" type="text" name="username" placeholder="username" required>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input class="input100" type="email" name="email" placeholder="email">
+					<input class="input100" type="email" name="email" placeholder="email" required>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
-					<input class="input100" type="password" name="password" placeholder="password">
+					<input class="input100" type="password" name="password" placeholder="password" required>
 					<span class="focus-input100"></span>
 				</div>
 
