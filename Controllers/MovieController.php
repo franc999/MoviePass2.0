@@ -21,9 +21,9 @@ class MovieController
     *
     */
 
-    public function create($title, $id_genre, $age, $img){  
+    public function create($title, $id_genre, $nameGenre, $age, $img){  
             
-            $genre = new Genre($id_genre,'');
+            $genre = new Genre($id_genre, $nameGenre);
 
             $foto = $_FILES['foto']['name']; // obtiene el nombre 
             $ruta = $_FILES['foto']['tmp_name']; // obtiene el archivo
@@ -33,8 +33,9 @@ class MovieController
             //= move_uploaded_file($foto, $destino);
 
             if($verifica == true){
+
                 $movie = new Movie("", $title, $genre, $age, $destino);
-                
+                //echo $movie->getGenre()->getName();
             }else{
                 $movie = new Movie("", $title, $genre, $age, "");
             }

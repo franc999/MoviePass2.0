@@ -12,8 +12,8 @@ class UserController
     protected $dao;
     private $viewController;
 
-    function __construct()
-    {
+    function __construct(){
+        
         // $this->dao = Dao::getInstance();
         $this->dao = new Dao;
         $this->viewController = new C_View;

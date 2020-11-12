@@ -52,6 +52,10 @@ include("nav-bar-admin.php");?>
                     <?php foreach ($T_list as $key => $theater) { ?>
                       <option value="<?php echo $theater->getId();  ?>"><?php echo $theater->getName(); ?></option>
                     <?php } ?>
+                    
+                    <input type="hidden" name="nameTheather" value=" <?php echo $theater->getName(); ?> "> 
+                    <input type="hidden" name="adress" value=" <?php echo $theater->getAdress(); ?> ">
+                    <input type="hidden" name="room" value= "<?php echo $theater->getId_Room(); ?> ">
 
 
                   </select> 

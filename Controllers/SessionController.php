@@ -5,13 +5,17 @@ namespace Controllers;
 use Models\Session as Session;
 use Models\Ticket as Ticket;
 use Models\Room as Room;
+use Models\Theather as Theather;
+use Models\Movie as Movie;
 
 use Controllers\MovieController as C_Movie;
+use Controllers\TheatherController as C_Theather;
 use Controllers\RoomController as C_Room;
 use Controllers\ViewController as C_View;
 use Controllers\TicketController as C_Ticket;
 
 use DAO\DAOSession as Dao;
+use DAO\Connection as connection;
 
 class SessionController
 {
@@ -21,7 +25,7 @@ class SessionController
     private $roomController;
     private $ticketController;
     private $viewController;
-
+    private $theatherController;
 
     function __construct()
     {
@@ -30,6 +34,7 @@ class SessionController
         $this->roomController = new C_Room;
         $this->viewController = new C_View;
         $this->ticketController = new C_Ticket;
+        $this->theatherController = new C_Theather;
     }
 
     /*public function create($id_movie, $id_theather, $date, $time, $name_room){  ////// ARREGLAR 
@@ -83,18 +88,76 @@ class SessionController
         }
     }*/
 
+    public function create ($id_movie, $id_theather, $id_room, $date, $time, $timeEnd){
 
-    public function create ($id_movie, $id_theather, $date, $time, $name_room){
+        $room = new Room('','','','','','');
+        $room = $this->roomController->read($id_room);  /// necesitamos precio, tamaño de sala y nombre para el ticket.
 
-        
+        $theather = new Theather();
+        $theather = $this->theatherController->read($id_theather);
+
+        $movie = new Movie();
+        $movie = $this->movieController->read($id_movie);
+    
+        $session = new Session($theather, $room, $movie, '', $date, $time, $timeEnd); // creamos objeto SESSION
+
+
+        /*echo $session->getMovie()->getId().'\n';
+        echo $session->getTimeEnd().'\n';
+        echo $session->getDate();*/
+
+        $this->dao->create($session);   // creamos la sesion        // todo perfecto.
+        $id = $this->dao->readLastid();
+        $session->setId_session($id);
+
+        $ticket = new Ticket('', '', $session);
+
+        //id_user='0', $id_ticket='', $id_room='', $id_movie='',  $id_theather='', $id_session=''
+        //$id_user='0', $id_ticket='', $id_room='', $id_movie='',  $id_theather='', $date='', $time='', $timeEnd='', $price=''
+
+        $this->ticketController->create($ticket);
+    }
+
+    public function readMovieDate($id_movie, $date){
+
+        $flag = $this->dao->readMovieDate($id_movie, $date);
+        return $flag;
     }
 
 
+    public function checkTimeStart($date, $timeStart){
+
+        $list = $this->dao->readAll();
+        
+        if (!is_array($list) && $list != false){ // si no hay nada cargado, readall devuelve false
+            $array[] = $list;
+            $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+            
+        }else if($list ==false){
+            $list=[];
+        }
+
+        $flag = false;
+
+        foreach ($list as $sesion){
+
+            if ($sesion->getDate() == $date){
+
+                $time= $sesion->getTime();
+                $time = time();
+                echo "$time";
+            }
+        }
+
+        return $flag;
+    }
+
+    
     public function readAll()
     {
         //guarda todos los user de la base de datos en la variable list
 
-        $list = $this->dao->readAll_sessions();
+        $list = $this->dao->readAll();
 
 
         if (!is_array($list) && $list != false) { // si no hay nada cargado, readall devuelve false
@@ -122,6 +185,24 @@ class SessionController
         } else if ($list == false) {
             $list = [];
         }
+
+        return $list;
+    }
+
+    public function readForMovie($movie)
+    {
+        //guarda todos los user de la base de datos en la variable list
+
+        $list = $this->dao->readSessionsByMovie($movie);
+
+/*
+        if (!is_array($list) && $list != false) { // si no hay nada cargado, readall devuelve false
+            $array[] = $list;
+            $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+
+        } else if ($list == false) {
+            $list = [];
+        }*/
 
         return $list;
     }

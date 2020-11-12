@@ -8,12 +8,12 @@ class Theather
     private $id_room;   // arreglo de salas
     private $adress;
 
-    public function __construct($idTheather = '', $name = '', $adress = '')
+    public function __construct($idTheather = '', $name = '', $adress = '', $room = '')
     {
 
         $this->idTheather = $idTheather;
         $this->name = $name;
-        $this->id_room = array();
+        $this->id_room = $room;
         $this->adress = $adress;
     }
 
@@ -40,7 +40,7 @@ class Theather
 
     public function setId_room($room){
 
-        array_push($this->id_room, $room);
+        $this->id_room = $room;
     }
 
     ////////////** GETTERS *//////////////////

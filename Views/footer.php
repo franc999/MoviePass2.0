@@ -40,7 +40,17 @@
 	<script src="<?php echo SCRIPT_PATH . "jquery.magnific-popup.min.js"?>"></script>
 	<script src="<?php echo SCRIPT_PATH . "main.js"?>"></script>
 
-
+	<script type="text/javascript" src="<?php echo SCRIPT_PATH . "ajaxRoom.js"?>"></script>
+	
+	<script type="text/javascript">
+		function confirmDelete(){
+			var respuesta = confirm ("Estas seguro que deseas eliminar, esto puede borrar otras tablas relacionadas con esta");
+			if(respuesta == true)
+				return true
+			else
+				return false;
+			}
+	</script>
 
 	</body>
 </html>

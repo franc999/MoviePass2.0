@@ -90,6 +90,31 @@ class DAORoom
             return false;
     }
 
+    public function readAllAvailable($id_theather){
+
+
+        $sql = "SELECT *FROM rooms where id_theather = :id and id_session = 0";
+
+            //echo "$_id";
+            $parameters['id'] = $id_theather;
+
+            try {
+                 $this->connection = Connection::getInstance();
+
+                 $resultSet = $this->connection->execute($sql, $parameters);
+                 
+            } catch(Exception $ex) {
+                throw $ex;
+            }
+
+            if(!empty($resultSet)){
+                 
+             return $this->mapear($resultSet);
+            }
+                
+            else
+                 return false;
+    }
 
     public function readForTheather($theather)
     {
@@ -192,7 +217,7 @@ class DAORoom
 
         $resp = array_map(function ($p) {
 
-            return new M_room($p["id_theather"], $p['name'], $p['id_room'], $p['totalSeats'], $p['ticketPrice'] );  // idtheather es objeto teatro
+            return new M_room($p["id_theather"], $p['name'], $p['id_room'], $p['totalSeats'], $p['ticketPrice'], $p['id_session'] );  // idtheather es objeto teatro
         }, $value);
 
         return count($resp) > 1 ? $resp : $resp['0'];

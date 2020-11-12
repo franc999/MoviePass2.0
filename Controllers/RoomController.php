@@ -28,16 +28,15 @@ class RoomController{
     }
 
 
-    public function create($name, $price, $seats, $id_theather)
+    public function create($name, $price, $seats, $id_theather, $nameTheather, $adress, $room)
     {       
-            $theather = new Theather();
-            $theather->setId($id_theather);
+            $theather = new Theather($id_theather, $nameTheather, $adress, $room);
 
             if (is_numeric($price) && is_numeric($seats)){          /// SI NO SON NUMEROS NO AGREGA ******* VALIDACION *********///
-
-                $room = new Room($name, $price, $seats, $theather);
+                
+                $room = new Room($theather, $name,'', $seats, $price, '');
                 $this->dao->create($room);
-
+                
                 $this->theatherController->addRoom($room, $id_theather);
 
                 $this->viewController->viewListRoom();
@@ -50,7 +49,6 @@ class RoomController{
 
     public function read($id){
 
-        $room = new Room();
         $room = $this->dao->read($id);
         return $room;
     }
@@ -60,7 +58,6 @@ class RoomController{
         //guarda todos los user de la base de datos en la variable list
 
         $list = $this->dao->readAll();
-      
         
         if (!is_array($list) && $list != false){ // si no hay nada cargado, readall devuelve false
             $array[] = $list;
@@ -73,6 +70,33 @@ class RoomController{
         
         return $list;
     
+    }
+
+    public function readAllAvailable($id_theather){
+
+        $list = $this->dao->readAllAvailable($id_theather);
+
+        if (!is_array($list) && $list != false){ // si no hay nada cargado, readall devuelve false
+            $array[] = $list;
+            $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+            
+        }else if($list ==false){
+            $list=[];
+
+        }
+        
+        return $list;
+    }
+
+
+    public function deleteRoom($id){    
+        
+        if(isset($_POST['id'])){
+            $id = $_POST['id'];
+            $this->dao->delete($id);
+        }
+
+        $this->viewController->viewListRoom();   
     }
 
     public function getId_for_name_theather($name_room, $id_theather)

@@ -36,10 +36,10 @@
                     // Creo una sentencia llamando a prepare. Esto devuelve un objeto statement
                     $this->pdoStatament = $this->pdo->prepare($query);
 
-
+                    
                     foreach($parameters as $parameterName => $value){
 
-
+                       
                         // Reemplazo los marcadores de parametro por los valores reales utilizando el método bindParam().
                         $this->pdoStatament->bindParam(":".$parameterName, $value);
                         

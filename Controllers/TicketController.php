@@ -27,6 +27,12 @@ class TicketController
         $this->viewController = new C_View;
     }
 
+    public function create($ticket){
+
+        //$ticket = new Ticket('', '', $room, $movie, $theather, $session);
+        $this->dao->create($ticket);
+    }
+
     public function readTicket ($_session){
 
         $ticket = $this->dao->readId($_session);

@@ -64,19 +64,18 @@ if ($user) {
 
       <div style="background: #ffffff;">
 
-        <form action="<?php echo FRONT_ROOT . "view/viewCartelera" ?>" method="GET">
+        <form action="<?php echo FRONT_ROOT . "view/viewCartelera" ?>" method="POST">
           <div class="form-group">
             
-              Buscar por categoria     <select style="width:350px" name="category" class="custom-select" required>
-                <option value=''>Seleccione una categoria</option>
-                <option value='all'>Todas</option>
-                <option value='Accion'>Accion</option>
-                <option value='Thriller'>Terror</option>
-                <option value='Drama'>Drama</option>
-                <option value='Comedy'>Comedia</option>
-                <option value='Romance'>Romance</option>
-                <option value='Musical'>Musical</option>
-              </select>
+              Buscar por categoria     
+              <select style="width:350px" name='category' class="custom-select">
+                        <option>Selecciona el genero</option> 
+
+                         <?php foreach ($G_list as $key => $genre) {
+                           ?>
+                        <option value="<?php echo $genre->getId_genre();  ?>"><?php echo $genre->getName(); ?></option>
+                        <?php } ?>
+              </select> 
 
               <button type="submit" class="btn btn-primary">Buscar</button>
             
@@ -90,13 +89,13 @@ if ($user) {
       <!-- Filtro por fecha -->
       
       <div style="background: #ffffff;">
-        <form action="<?php echo FRONT_ROOT . "view/viewCartelera" ?>" method="GET">
+        <form action="<?php echo FRONT_ROOT . "view/viewCartelera" ?>" method="POST">
           <div class="form-group">
                  Buscar por fecha              <select style="width:350px" name="date" class="custom-select" required>
               <option value=""> Seleccione una fecha </option>
                 <?php foreach ($SC_list as $key => $session) { ?>
                   
-                  <option value="<?php echo $session->getDate();  ?>"><?php echo $session->getDate() ?></option>
+                  <option value="<?php echo $session->getId_session();  ?>"><?php echo $session->getDate() ?></option>
                 <?php } ?>
               </select>
               <button type="submit" class="btn btn-primary">Buscar</button>
@@ -116,6 +115,7 @@ if ($user) {
               <tr>
                 <th style="width: 20%;">Titulo</th>
                 <th style="width: 20%;">Genero</th>
+                <th style="width: 15%;">Edad</th>
                 <th style="width: 25%;">Portada</th>
                 <th style="width: 10%;"></th>
 
@@ -131,7 +131,18 @@ if ($user) {
 
                       
                       <td><?php echo $list->getTitle(); ?></td>
-                      <td><?php echo $list->getCategory(); ?></td>
+                      <td><?php   
+                         $genre;
+                         foreach($G_list as $gList){
+                            if($gList->getId_genre() == $list->getGenre())
+                                $genre = $gList->getName(); 
+                          }
+                          echo "$genre";
+                          ?>
+                    </td>
+
+                    <td><?php echo $list->getAge() ?></td>
+
                       <td><img src="<?php echo FRONT_ROOT . $list->getImg()?>" width="100" height="100"></td>
                       
                       <td><button type="submit" class="btn btn-outline-info"> Ver fechas </button></td>
@@ -166,3 +177,4 @@ if ($user) {
     </div>
   </main>
 </div>
+

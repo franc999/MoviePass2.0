@@ -23,7 +23,7 @@
 						<li><a href="#">Pelicula</a>
 							<ul class="sub-menu">
 								<li><a href="<?php echo FRONT_ROOT ."View/viewAddMovie"?>">Añadir pelicula</a></li>
-								<li><a href="<?php echo FRONT_ROOT ."View/viewAddGenree"?>">Añadir genero</a></li>
+								<li><a href="<?php echo FRONT_ROOT ."View/viewAddGenre"?>">Añadir genero</a></li>
 							</ul>
 						</li>
 						<li><a href="#">Usuarios</a>
@@ -51,14 +51,9 @@
 			</div>
 		</div>
 
-		<script type="text/javascript">
-                 function confirmDelete(){
-                    var respuesta = confirm ("Estas seguro que deseas eliminar, esto puede borrar otras tablas relacionadas con esta");
-                    if(respuesta == true)
-                        return true
-                    else
-                        return false;
-              }</script>
-
+				<script
+					src="https://code.jquery.com/jquery-3.5.1.js"
+					integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+					crossorigin="anonymous"></script>
 	</header>
 	<!-- Header section end -->

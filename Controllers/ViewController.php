@@ -23,7 +23,9 @@ class ViewController
     private $genreController;
 
     public function __construct()
-    { }
+    {
+  
+     }
 
     public function home(){
 
@@ -70,18 +72,35 @@ class ViewController
         $user = $this->userController->checkSession();
 
         $this->sessionController = new C_Session;
-        $SC_list = $this->sessionController->readAllByDate();
+        $SC_list = $this->sessionController->readAll();
 
-        if (isset($_GET['category']) && $_GET['category'] != 'all') {
+        $this->genreController = new C_Genre;
+        $G_list = $this->genreController->readAll();
 
-            $category = $_GET['category'];
+        /*if (isset($_POST["category"])) {
+
+            $category = $_POST["category"];
+
+            //$this->movieController = new C_Movie;
+            //$M_list = $this->movieController->readForCategory($category);
+        }*/
+
+        if (isset($_POST['category']) && $_POST['category'] != 'all') {     // PARA LOS SELECT MOSTRAR CON AJAX
+
+            $id_genre = $_POST['category'];
             $this->movieController = new C_Movie;
-            $M_list = $this->movieController->readForCategory($category);
-        } elseif (isset($_GET['date'])) {
-            $date = $_GET['date'];
+            $M_list = $this->movieController->readForCategory($id_genre);
+
+            if(!is_array($M_list)){
+
+                $movie = $M_list;
+            }
+
+        } elseif (isset($_POST['date'])) {
+            $date = $_POST['date'];
 
             $this->sessionController = new C_Session;
-            $S_list = $this->sessionController->readForDate($date);
+            $S_list = $this->sessionController->readForDate($date); /// CAMBIAR METODO
         } else {
             $this->movieController = new C_Movie;
             $M_list = $this->movieController->readAll();
@@ -100,9 +119,9 @@ class ViewController
         $this->theatherController = new C_theather;
         $T_list = $this->theatherController->readAll();
 
-        if (isset($_GET["id_theather"])) {
+        if (isset($_POST["id_theather"])) {
 
-            $id_theather = $_GET["id_theather"];
+            $id_theather = $_POST["id_theather"];
 
 
             $this->sessionController = new C_Session;
@@ -122,10 +141,35 @@ class ViewController
 
         if(isset ($_POST["id"])){
 
-            $id = $_POST["id"];
+            $id_session = $_POST["id"];
 
             $this->sessionController = new C_Session;
-            $S_list = $this->sessionController->getmovie_schedules($id);
+            $S_list = $this->sessionController->readForMovie($id_session);
+
+            if($S_list != null){
+                
+                foreach($S_list as $key => $session){
+                    $id_room=$session->getRoom();
+                    echo "$id_room";
+                    $id_theather=$session->getTheather();
+                    //echo "$id_theather\n";
+                    $id_movie=$session->getMovie();
+                    //echo "$id_movie\n";
+                }
+
+                $this->roomController = new C_Room;
+                $R_list = $this->roomController->read($id_room);
+    
+                $this->theatherController = new C_theather;
+                $T_list = $this->theatherController->read($id_theather);
+    
+                $this->movieController = new C_Movie;
+                $M_list = $this->movieController->read($id_theather);
+
+            }else{
+
+                echo 'LISTA NULL';
+            }
         }
 
         require(VIEWS_PATH . "viewSchedule.php");
@@ -244,6 +288,8 @@ class ViewController
         require(VIEWS_PATH . "addRoom.php");
     }
 
+    ////////////////*************************** AGREGANDO SESSION ***************************////////////////
+
     public function viewAddSession(){
 
         $this->userController = new C_User;
@@ -255,8 +301,84 @@ class ViewController
         $this->movieController = new C_Movie;
         $M_list = $this->movieController->readAll();
 
+        $this->roomController = new C_Room;
+        $R_list = $this->roomController->readAll();
+
         require(VIEWS_PATH . "addSession.php");
     }
+
+
+     public function checkAddMovieToSession($id_theather, $id_movie, $date, $time, $timeEnd){   
+        
+        $this->sessionController = new C_Session;
+
+        if($time < $timeEnd){
+            
+            $flag = $this->sessionController->readMovieDate($id_movie, $date);  /// verifica si la pelicula no esta agregada en otra cartelera el dia seleccionado
+
+            if($flag == false){
+                
+                /*$flag = $this->sessionController->checkTimeStart($date, $time);
+                
+                if ($flag == false)   /// el horario esta disponible y la pelicula fue leida, procedemos a mostrar las salas disponibles //
+                
+                    
+                    $this->roomController = new C_Room;
+                    $R_list = $this->roomController->readAllAvailable($id_theather);
+
+                    if(!empty($R_list)){
+                        
+                        $this->viewCheckedSession($id_theather, $id_movie, $date, $time, $timeEnd);
+                        //require(VIEWS_PATH . "addSession2.php");
+                    }else{
+
+                        echo '<p class="alert alert-success agileits" role="alert"> No hay salas disponibles p>';
+                    }*/
+                        
+
+            }else{
+
+                echo '<p class="alert alert-success agileits" role="alert"> La pelicula se encuentra en cartelera el dia ingresado, intente otro p>';
+
+                $this->viewAddSession();
+            }
+
+        }else{
+
+            echo '<p class="alert alert-success agileits" role="alert"> Horario ingresado mal p>';
+
+            $this->viewAddSession();
+        }    
+         // primero chequear que esa pelicula no este el mismo dia en otro cine
+
+          // despues chequear que la hora de comienzo sea 15 minutos despues que la pelicula anterior
+
+          // mostrar que salas estan disponibles para colocar la pelicula en el horario y fechas y cine indicados.
+    }
+
+    public function readRooms(){
+
+        //if (isset($_POST['id_theather'])){
+
+            //$id_theather = $_POST['id_theather'];
+            $this->roomController = new C_Room;
+            //$R_list = $this->roomController->readAllAvailable($id_theather);
+            $R_list = $this->roomController->readAll();
+            return $R_list;
+
+        //}else{
+
+            //echo 'no llega el id';
+            //return null;
+        //}
+    }
+
+    public function viewCheckedSession($id_theather, $id_movie, $date, $time, $timeEnd, $id_room=1){    /// muestra las salas disponibles para la funcion a crear 
+
+        $this->sessionController->create($id_theather, $id_room ,$id_movie, $date, $time, $timeEnd);
+    }
+
+
 
     ///////////********** EDITS *****************///
 
@@ -285,7 +407,10 @@ class ViewController
         $this->theatherController = new C_theather;
         $T_list = $this->theatherController->readAll();
 
-        require(VIEWS_PATH . "pruebaQR.php");
+        $this->roomController = new C_room;
+        $R_list = $this->roomController->readAll();
+
+        require(VIEWS_PATH . "viewListRooms.php");
     }
 
     public function adminCartelera()
@@ -293,16 +418,19 @@ class ViewController
 
         $this->userController = new C_User;
         $user = $this->userController->checkSession();
+
+        $this->movieController = new C_Movie;
+        $M_list = $this->movieController->readAll();
         
-        if (isset($_GET["category"])) {
+        $this->genreController = new C_Genre;
+        $G_list = $this->genreController->readAll();
 
-            $category = $_GET["category"];
+        if (isset($_POST["category"])) {
 
-            $this->movieController = new C_Movie;
-            $M_list = $this->movieController->readForCategory($category);
-        } else {
-            $this->movieController = new C_Movie;
-            $M_list = $this->movieController->readAll();
+            $category = $_POST["category"];
+
+            //$this->movieController = new C_Movie;
+            //$M_list = $this->movieController->readForCategory($category);
         }
 
         require(VIEWS_PATH . "adminCartelera.php");

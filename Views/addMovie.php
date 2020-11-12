@@ -44,12 +44,12 @@ include("nav-bar-admin.php");?>
                               
                            ?>
                            <option value="<?php echo $genre->getId_genre();  ?>"><?php echo $genre->getName(); ?></option>
-                        <?php } ?>
+                        <?php } ?><input type="hidden" name="nameGenre" value="<?php echo $genre->getName(); ?>">
                     </select> 
                 </td>
 
                 <td>                   
-                    <select name='age' required>
+                    <select name='age' id='age' required>
                     
                         <option value='APT'>APT</option>
                         <option value='13'>+13</option>

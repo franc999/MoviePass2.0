@@ -47,7 +47,7 @@ class GenreController
     public function read($id){
 
         //DEVUELVE EL user CON ESE EMAIL EN CASO DE EXSISTIR
-
+        $list = $this->dao->readAll();
     }
 
 

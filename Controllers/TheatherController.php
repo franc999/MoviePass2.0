@@ -34,6 +34,7 @@ class TheatherController
         $theather = new Theather();
         $theather = $this->dao->read($id_theather);
 
+        echo $theather->getId();
         $theather->setId_room($room);
 
         $this->dao->addRoom($room, $id_theather);

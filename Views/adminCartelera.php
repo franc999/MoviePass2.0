@@ -30,11 +30,11 @@ include("nav-bar-admin.php");
           
           <div class="form-group">
               <select name='category'>
-                        <option>Selecciona la pelicula</option>
+                        <option>Selecciona el genero</option> 
 
-                         <?php foreach ($M_list as $key => $movie) {
+                         <?php foreach ($G_list as $key => $genre) {
                            ?>
-                        <option value="<?php echo $movie->getCategory();  ?>"><?php echo $movie->getCategory(); ?></option>
+                        <option value="<?php echo $genre->getName();  ?>"><?php echo $genre->getName(); ?></option>
                         <?php } ?>
               </select> 
             <button type="submit" class="btn btn-primary">Buscar</button>
@@ -67,7 +67,15 @@ include("nav-bar-admin.php");
                   <form action="<?php echo FRONT_ROOT . "Movie/delete" ?>" method="POST">
                     <td><?php echo $list->getId() ?></td>
                     <td><?php echo $list->getTitle() ?></td>
-                    <td><?php echo $list->getCategory() ?></td>
+                    <td><?php   
+                         $genre;
+                         foreach($G_list as $gList){
+                            if($gList->getId_genre() == $list->getGenre())
+                                $genre = $gList->getName(); 
+                          }
+                          echo "$genre";
+                          ?>
+                    </td>
                     <td><?php echo $list->getAge() ?></td>
                     <td><img src="<?php echo FRONT_ROOT . $list->getImg()?>" width="100" height="100"></td>
                     <td>
@@ -82,8 +90,9 @@ include("nav-bar-admin.php");
                   </tr>
 
               <?php
-                }
+                
               }
+             }
               ?>
             </tbody>
           </table>

@@ -70,11 +70,11 @@
               }
 
 
-              public function readForGenre($genre) {
+              public function readForCategory($category) {
         
-                $sql = "SELECT DISTINCT genre FROM movies";
+                $sql = "SELECT *FROM movies where id_genre = :category";
     
-                $parameters['genre'] = $genre;
+                $parameters['category'] = $category;
     
                 try {
                     $this->connection = Connection::getInstance();
@@ -87,7 +87,7 @@
 
                 if(!empty($resultSet)){
                     
-                return $this->mapearGenre($resultSet);
+                return $this->mapear($resultSet);
                 }
                     
                 else

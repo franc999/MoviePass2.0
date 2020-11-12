@@ -16,7 +16,38 @@
                $this->connection = null;
               }
 
-    
+            public function create($ticket) {           //id_rm, id_user, id_movie, date, time, timeEnd, price, code, id_theather
+
+                // Guardo como string la consulta sql utilizando como values, marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada
+                $totalSeats = $ticket->getId_session()->getRoom()->getTotalSeats();
+
+                try {
+
+                    for($i=1; $i < $totalSeats; $i++){
+
+                        $sql = "INSERT INTO ticket (id_rm, id_movie, id_theather, price, date, time, timeEnd) VALUES (:id_rm, :id_movie, :id_theather, :price, :date, :time, :timeEnd)";
+
+                        $parameters['id_rm'] = $ticket->getId_session()->getId_session();
+                        $parameters['id_movie'] = $ticket->getId_session()->getMovie()->getId();
+                        $parameters['id_theather'] = $ticket->getId_session()->getTheather()->getId();
+                        $parameters['date'] = $ticket->getId_session()->getDate();
+                        $parameters['time'] = $ticket->getId_session()->getTime();
+                        $parameters['timeEnd'] = $ticket->getId_session()->getTimeEnd();
+                        $parameters['price'] = $ticket->getId_session()->getRoom()->getTicketPrice();
+
+                                                                 // creo la instancia connection
+                      $this->connection = Connection::getInstance();
+                      $this->connection->ExecuteNonQuery($sql, $parameters);
+                      // Ejecuto la sentencia.
+                    }
+
+                 return $this->connection->ExecuteNonQuery($sql, $parameters);
+
+             } catch(PDOException $ex) {
+                 
+                    throw $ex;
+               }
+           }
 
             public function readId($_session) {
                 

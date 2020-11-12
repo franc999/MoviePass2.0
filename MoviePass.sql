@@ -27,7 +27,7 @@ CREATE TABLE theathers ( id_theather int auto_increment primary key, name varcha
 
 /***********************Tabla de salas*************************************************/
 create table rooms (id_room int auto_increment primary key, id_theather int not null, name varchar(20) not null, totalSeats int default(50),
-					ticketPrice int not null, foreign key (id_theather) references theathers(id_theather)ON DELETE CASCADE);
+					id_session int default(0), ticketPrice int not null, foreign key (id_theather) references theathers(id_theather)ON DELETE CASCADE);
 
 	
 
@@ -35,7 +35,7 @@ create table rooms (id_room int auto_increment primary key, id_theather int not 
 
 
 create table room_x_movie (id_rm int auto_increment primary key, id_room int not null, id_movie int default (0), date date not null ,
-					       time time not null , id_theather int not null, price float not null,
+					       time time not null, timeEnd time not null, id_theather int not null, 
                            foreign key (id_theather) references theathers(id_theather) ON DELETE CASCADE,
 						   foreign key (id_room) references rooms(id_room) ON DELETE CASCADE,
                            foreign key (id_movie)references movies(id_movie) ON DELETE CASCADE);
@@ -44,7 +44,7 @@ create table room_x_movie (id_rm int auto_increment primary key, id_room int not
 
 /***********************************Tabla ticket**********************************/
 
-create table ticket (id_ticket int auto_increment primary key, id_rm int default(0), id_user int not null, id_movie int not null,
+create table ticket (id_ticket int auto_increment primary key, id_rm int not null, id_user int default(0), id_movie int not null,
 					 date date not null, time time not null, timeEnd time not null, price float not null, code varchar(100) not null, id_theather int not null,
 					 foreign key (id_rm) references room_x_movie(id_rm) ON DELETE CASCADE);
 
@@ -82,20 +82,18 @@ insert into movies (title, age, id_genre, img) values ("Avengers EndGame", "13",
 
 /*Volcado a de cines*/
 
-insert into theathers( name, adress)  values ('Ambassador', 'avenida 1');  
-insert into theathers( name, adress) values ('Cines Paseo Aldrey', 'paseo 2');
-insert into theathers( name, adress) values ('Cine del Paseo', 'paseo 3');
-insert into theathers( name, adress) values ('Cine del Paseo NARNIO', 'avenida 7');
-insert into theathers( name, adress) values ('Los Gallegos Shopping', 'calle 12'); 
-
-
+insert into theathers( name, adress, room)  values ('Ambassador', 'avenida 1', 0);  
+insert into theathers( name, adress, room) values ('Cines Paseo Aldrey', 'paseo 2', 0);
+insert into theathers( name, adress, room) values ('Cine del Paseo', 'paseo 3', 0);
+insert into theathers( name, adress, room) values ('Cine del Paseo NARNIO', 'avenida 7', 0);
+insert into theathers( name, adress, room) values ('Los Gallegos Shopping', 'calle 12', 0); 
 
 /* Volcado de tickets */
 
 
 /**Volcado tabla de salas**/
 
-insert into rooms(id_theather, name , totalSeats, ticketPrice) values (1,'Sala 1',50, 300); 
+insert into rooms(id_theather, name , totalSeats, ticketPrice, id_session) values (1,'Sala 1',50, 300, 1); 
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (1,'Sala 2',50, 250);	
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (1,'Sala 3',50, 280);	
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (1,'Sala 4',50, 350);	
@@ -119,7 +117,6 @@ insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 1
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 2',50, 250);	
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 3',50, 350);	
 insert into rooms(id_theather, name , totalSeats, ticketPrice) values (5,'Sala 4',50, 300);
-
 
 /**Volcado en Sala_X_pelicula**/
 
@@ -148,6 +145,12 @@ insert into room_x_movie(id_room,id_movie,date,time)values(18,3,'2019-12-04',' 1
 insert into room_x_movie(id_room,id_movie,date,time)values(19,3,'2019-12-04',' 19:00');
 insert into room_x_movie(id_room,id_movie,date,time)values(20,3,'2019-12-06',' 22:00');*/
 
+
+select *from room_x_movie;
 select *from theathers;
 select *from movies;
 select *from genre;
+select *from rooms;
+
+SELECT MAX(id_rm) FROM room_x_movie;
+
