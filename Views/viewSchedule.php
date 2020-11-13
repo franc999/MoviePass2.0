@@ -25,6 +25,7 @@ include("nav-bar-user.php");?>
             <thead class="table-active">
               <tr>
                 <th style="width: 15%;">Cine</th>
+                <th style="width: 15%;">Sala</th>
                 <th style="width: 15%;">Pelicula</th>
                 <th style="width: 10%;">Fecha</th>
                 <th style="width: 10%;">Comienzo</th>
@@ -37,41 +38,46 @@ include("nav-bar-user.php");?>
             </thead>
             <tbody>
               <?php
-                  if($S_list != null && $T_list != null && $M_list != null && $R_list != null){
+                  if($S_list != false){
 
                       foreach($S_list as $list){
-                        foreach($T_list as $t_list){
-                          foreach($M_list as $m_list){
-                            foreach($R_list as $R_list){
+
+                            //foreach($R_list as $R_list){echo 'room';
 
                       ?>
                         <tr>
-                          <form action ="<?php echo FRONT_ROOT. "View/viewPurchase"?>" method="POST" enctype="multipart/form-data"> <!--Envia cantidad de tickets a comprar-->
-                            <td><?php echo $t_list->getName() ?></td>
-                            <td><?php echo $m_list->getTitle()?></td>
-                            <td><?php echo $list->getDate()?></td>
-                            <td><?php echo $list->getTime()?></td>
-                            <td><?php echo $list->getTimeEnd()?></td>
-                            <td><?php echo $list->availableSeats();?></td>
-                            <td><input type='number' name='tickets' ></input></td>
+                          <form action ="<?php echo FRONT_ROOT. "View/viewShoppingCart"?>" method="POST" enctype="multipart/form-data"> <!--Envia cantidad de tickets a comprar-->
+                            <td><?php echo $list->getTheatherName(); ?></td>
+
+                            <td><?php echo $list->getRoomName(); ?></td>
+
+                            <td><?php echo $list->getMovieName();?></td>
+
+                            <td><?php echo $list->getDate();?></td>
+
+                            <td><?php echo $list->getTime();?></td>
+
+                            <td><?php echo $list->getTimeEnd();?></td>
+
+                            <td><?php echo $list->getAvailableSeats();?></td>
+
+                            <td><input type='number' name='tickets' id="tickets" required min="1" max="<?php 50//echo $list->getAvailableSeats();?>"></input></td>
 
                             <td>
-                              <button type="submit" name="id" class="btn btn-success" > Comprar </button>
-                                                        <input type="hidden" name="id" value=" <?php echo $list->getId(); ?>" >
-                                            CHECHEAR            <input type="hidden" name="name_room" value=" <?php echo $list->getRoom(); ?> ">
-                                                          <input type="hidden" name="id_theather" value=" <?php echo $list->getTheather(); ?> ">
+                              <button type="submit" name="id" class="btn btn-success" value=" <?php echo $list->getId_session(); ?>"> Agregar al carrito </button>
+                              <input type="hidden" value=" <?php echo $list->getRoom(); ?>" name='id_room' id='id_room'>
+                              <input type="hidden" value=" <?php echo $list->getTheatherName() ?>" name='theather_name' id='theather_name'>    
+                              <input type="hidden" value=" <?php echo $list->getRoomName(); ?>" name='room_name' id='room_name'>    
+                              <input type="hidden" value=" <?php echo $list->getMovieName(); ?>" name='movie_name' id='movie_name'>                                      
                             </td>
                           </form>  
                         </tr>
                       <?php
-                          }
-                        }
                       }
-                    }
+
                   }else{
 
                     echo 'Ha ocurrido un error, intente nuevamente\n';
-                    $this->viewController->home();
 
                   }
               ?>

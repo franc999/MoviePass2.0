@@ -1,15 +1,15 @@
 <?php 
-include("nav-bar-admin.php");?>
+include("nav-bar-user.php");?>
 
 <!-- Page top section -->
 
 
 <section class="page-top-section set-bg" data-setbg="img/page-top-bg/1.jpg" style="background: #330d38;">
 		<div class="page-info">
-			<h2>Agregar Funcion</h2>
+			<h2>Carrito</h2>
 			<div class="site-breadcrumb">
 				<a href="">Administrar</a>  /
-				<span>Agregar Funcion</span>
+				<span>Entradas</span>
 			</div>
 		</div>
 	</section>
@@ -29,7 +29,8 @@ include("nav-bar-admin.php");?>
                 <th style="width: 10%;">Fecha</th>
                 <th style="width: 15%;">Horario ingreso</th>
                 <th style="width: 15%;">Horario salida</th>
-                <th style="width: 15%;">Salas</th>
+                <th style="width: 15%;">Sala</th>
+                <th style="width: 15%;">Sala</th>
                 <th style="width: 5%;"></th>
               </tr>
             </thead>

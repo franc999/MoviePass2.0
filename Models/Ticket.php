@@ -14,28 +14,16 @@ class Ticket
     private $date;
     private $time;
     private $price;
+    private $code;
 
-    public function __construct($id_user='', $id_ticket='', $id_session='')
-    {
-        $this->id_ticket = '';
-        $this->id_user = '';
-        /*$this->id_room = $id_room;
-        $this->id_theather = $id_theather;
-        $this->id_movie = $id_movie;*/
-        $this->id_session = $id_session;
-        /*$this->date = $date;
-        $this->time = $time;
-        $this->timeEnd = $timeEnd;
-        $this->price = $price;*/
-    }
-
-    /*public function __construct($id_user='0', $id_ticket='', $id_room='', $id_movie='',  $id_theather='', $date='', $time='', $timeEnd='', $price='')
+    public function __construct($id_user='', $id_ticket='', $id_room='', $id_movie='',  $id_session='', $id_theather='', $date='', $time='', $timeEnd='', $price='')
     {
         $this->id_ticket = $id_ticket;
         $this->id_user = $id_user;
         $this->id_room = $id_room;
         $this->id_theather = $id_theather;
         $this->id_movie = $id_movie;
+        $this->id_session = $id_session;
         $this->date = $date;
         $this->time = $time;
         $this->timeEnd = $timeEnd;
@@ -109,8 +97,6 @@ class Ticket
         $this->price = $price;
     }
 
-
-
     ////////////** GETTERS *//////////////////
 
     public function getId_session()
@@ -166,7 +152,7 @@ class Ticket
         return $this->date;
     }
 
-    public function getid_theather()
+    public function getId_theather()
     {
 
         return $this->id_theather;

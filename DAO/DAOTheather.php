@@ -137,9 +137,9 @@
                      $this->connection = Connection::getInstance();
                     // Ejecuto la sentencia.
                     return $this->connection->ExecuteNonQuery($sql, $parameters);
-                } catch(\PDOException $ex) {
+                    } catch(\PDOException $ex) {
                        throw $ex;
-                  }
+                    }
               }
               
               

@@ -159,12 +159,23 @@ if ($user) {
                     <form action="<?php echo FRONT_ROOT . "View/viewBuyTicket" ?>" method="POST" enctype="multipart/form-data">
 
                       
-                      <td><?php echo $list->getTitle(); ?></td>
-                      <td><?php echo $list->getCategory(); ?></td>
+                    <td><?php echo $list->getTitle(); ?></td>
+                      <td><?php   
+                         $genre;
+                         foreach($G_list as $gList){
+                            if($gList->getId_genre() == $list->getGenre())
+                                $genre = $gList->getName(); 
+                          }
+                          echo "$genre";
+                          ?>
+                    </td>
+
+                    <td><?php echo $list->getAge() ?></td>
+
                       <td><img src="<?php echo FRONT_ROOT . $list->getImg()?>" width="100" height="100"></td>
                       
                       <td><button type="submit" class="btn btn-outline-info"> Ver fechas </button></td>
-                      <input type="hidden" value=" <?php echo $list->getId_movie() ?> ">
+                      <input type="hidden" name="id" value=" <?php echo $list->getId() ?> ">
                     </form>
                   </tr>
                 <?php

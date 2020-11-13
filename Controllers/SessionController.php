@@ -109,11 +109,8 @@ class SessionController
         $this->dao->create($session);   // creamos la sesion        // todo perfecto.
         $id = $this->dao->readLastid();
         $session->setId_session($id);
-
-        $ticket = new Ticket('', '', $session);
-
-        //id_user='0', $id_ticket='', $id_room='', $id_movie='',  $id_theather='', $id_session=''
-        //$id_user='0', $id_ticket='', $id_room='', $id_movie='',  $id_theather='', $date='', $time='', $timeEnd='', $price=''
+        //$id_user='', $id_ticket='', $id_room='', $id_movie='',  $id_session='', $id_theather='', $date='', $time='', $timeEnd='', $price=''   
+        $ticket = new Ticket('', '', $session->getRoom(), $session->getMovie(), $session->getId_session(), $session->getTheather(), $session->getDate(), $session->getTime(), $session->getTimeEnd(), $session->getRoom()->getTicketPrice());
 
         $this->ticketController->create($ticket);
     }
@@ -195,14 +192,14 @@ class SessionController
 
         $list = $this->dao->readSessionsByMovie($movie);
 
-/*
+
         if (!is_array($list) && $list != false) { // si no hay nada cargado, readall devuelve false
             $array[] = $list;
             $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
 
         } else if ($list == false) {
             $list = [];
-        }*/
+        }
 
         return $list;
     }

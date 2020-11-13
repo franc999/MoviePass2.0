@@ -1,16 +1,23 @@
 <?php namespace Controllers;
 
+
+
 use Controllers\UserController as C_User;
 use Controllers\MovieController as C_Movie;
 use Controllers\TheatherController as C_theather;
 use Controllers\SessionController as C_Session;
 use Controllers\RoomController as C_Room;
 use Controllers\GenreController as C_Genre;
+use Controllers\TicketController as C_Ticket;
 
 use models\User as M_User;
 use models\Genre as M_Genre;
 use models\Movie as M_Movie;
 use models\Room as M_Room;
+use models\Session as M_Session;
+use models\Ticket as M_Ticket;
+
+use models\QR_BarCode as QR;
 
 class ViewController
 {
@@ -91,9 +98,12 @@ class ViewController
             $this->movieController = new C_Movie;
             $M_list = $this->movieController->readForCategory($id_genre);
 
-            if(!is_array($M_list)){
-
-                $movie = $M_list;
+            if (!is_array($M_list) && $M_list != false) { // si no hay nada cargado, readall devuelve false
+                $array[] = $M_list;
+                $M_list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+    
+            } else if ($M_list == false) {
+                $M_list= [];
             }
 
         } elseif (isset($_POST['date'])) {
@@ -101,6 +111,7 @@ class ViewController
 
             $this->sessionController = new C_Session;
             $S_list = $this->sessionController->readForDate($date); /// CAMBIAR METODO
+
         } else {
             $this->movieController = new C_Movie;
             $M_list = $this->movieController->readAll();
@@ -148,90 +159,132 @@ class ViewController
 
             if($S_list != null){
                 
+                $this->ticketController = new C_Ticket;
+                //$availableTickets = $this->ticketController->readAllWhitoutUser($id);
+
                 foreach($S_list as $key => $session){
+
                     $id_room=$session->getRoom();
-                    echo "$id_room";
+                    //echo "$id_room";
                     $id_theather=$session->getTheather();
                     //echo "$id_theather\n";
                     $id_movie=$session->getMovie();
                     //echo "$id_movie\n";
+
+                    $this->roomController = new C_Room;
+                    $R_list = $this->roomController->read($id_room);
+                    
+                    $this->theatherController = new C_theather;
+                    $T_list = $this->theatherController->read($id_theather);
+                    
+                    $this->movieController = new C_Movie;
+                    $M_list = $this->movieController->read($id_theather);
+
+                    $session->setTheatherName($T_list->getName());
+                    $session->setRoomName($R_list->getName());
+                    $session->setMovieName($M_list->getTitle());
                 }
-
-                $this->roomController = new C_Room;
-                $R_list = $this->roomController->read($id_room);
-    
-                $this->theatherController = new C_theather;
-                $T_list = $this->theatherController->read($id_theather);
-    
-                $this->movieController = new C_Movie;
-                $M_list = $this->movieController->read($id_theather);
-
             }else{
 
-                echo 'LISTA NULL';
+                echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
+                require(VIEWS_PATH."home.php");
             }
         }
 
         require(VIEWS_PATH . "viewSchedule.php");
+    }   
+
+    public function sendToCart($tickets, $id, $id_room, $theather_name, $room_name, $movie_name){
+
+        require(VIEWS_PATH . "addCart.php");
     }
 
-    public function viewPurchase(){
+    public function viewShoppingCart($tickets, $id, $id_room, $theather_name, $room_name, $movie_name){ // aca ya termina la compra
 
         $this->userController = new C_User;
         $user = $this->userController->checkSession();
 
-        if(isset ($_POST["id"]) && ($_POST['tickets']) && ($_POST['name_room']) && ($_POST['id_theather']) ){
+        if($user==false){
             
-            $tickets = $_POST["tickets"];
-            $name_room =   $_POST['name_room'];
-            $id_theather = $_POST['id_theather'];
+            echo '<p class="alert alert-success agileits" role="alert"> Por favor inicia sesion!>';
+            $this->login();
+            // VER COMO VOLVER A COMPRAR
 
-            if($tickets > 0){
+        }else{
 
-                $id = $_POST["id"];
-                $precioTicket = 100;
+            $this->ticketController = new C_Ticket;
 
-                $this->sessionController = new C_Session;
-                $S_list = $this->sessionController->getSession_purchase($id);
+            /*include('Extensions/mcript.php');                     // ESTE INCLUDE LO ROMPE, ANTES FUNCIONABA BIEN.
+            $encriptado = $encriptar($user->getEmail());
+            $dateEncriptado = $encriptar(gettimeofday(true));       // ENCRIPTA EL USUARIO EMAIL, MAS LA FECHA DEL MOMENTO DE COMPRA DE TICKET PARA EL NOMBRE DEL QR
+            echo "$encriptado.$dateEncriptado";*/
 
-                $this->roomController = new C_Room;
-                $totalSeats = $this->roomController->readTotalSeats($name_room, $id_theather);
-                echo "$totalSeats";
+            if($tickets > 1){
 
-                require(VIEWS_PATH . "viewPurchase.php");
+                $availableTickets = $this->ticketController->readAllWhitoutUser($id);
+                //echo "$availableTickets";
+
+                if($availableTickets > $tickets){
+                    
+                    $i=0;
+                    $list = $this->ticketController->readAllForSession($id);  // idsession
+
+                    foreach($list as $ticket){
+
+                        if($i != $tickets){
+                            
+                            $flag = $this->ticketController->asignUser($ticket->getId_ticket(), $user->getId());
+                            $i++;
+                            echo "$i\n";
+                        }else{break;}
+                    }
+
+                    if($flag==1){
+
+                        echo '<p class="alert alert-success agileits" role="alert"> Entradas añadidas al carrito>';
+                    }else{
+
+                        echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
+                        require(VIEWS_PATH."home.php");
+                    }
+
+                }else{
+
+                    echo '<p class="alert alert-success agileits" role="alert"> No disponemos de suficientes entradas!';
+                    $this->viewBuyTicket();
+                }
 
             }else{
 
-                echo '<p class="alert alert-success agileits" role="alert"> Has ingresado un numero negativo.!p>';
-                $this->viewCartelera();
+                $list = $this->ticketController->readTicket($id); // idsession
+                
+                /*include('Extensions/phpqrcode/qrlib.php');                      // LIBRERIA PARA GENERAR QRS NO ME DETECTA QRCODE::
+
+                $qrDir = VIEWS_PATH . "qr";
+                $qrFile = "$encriptado.$dateEncriptado.png";        //            $this->id_session = $id_session date = $date;$time = $time;$timeEnd = $timeEnd;price = $price;
+
+                $data = "Cine : ".$theather_name."\nSala : ".$room_name."\nPelicula : ".$movie_name."\nFecha :"."\nComienzo :".$ticket->getTime()."\nFinalizacion :".$ticket->getTimeEnd()."\nPrecio :".$ticket->getPrice();
+
+                QRcode::png($data , $qrDir.$qrFile, 'M', 5); 
+                echo '<img class="img-thumbnail" src="'.$codesDir.$codeFile.'" />';
+                */
+                
+                foreach($list as $ticket){
+                    $flag = $this->ticketController->asignUser($ticket->getId_ticket(), $user->getId());}
+
+                //echo "$flag";
+                if($flag == 1){
+
+                    echo '<p class="alert alert-success agileits" role="alert"> Entradas añadidas al carrito>';
+                }else{
+
+                    echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
+                    require(VIEWS_PATH."home.php");
+                }
+
             }
 
-        }else{
-
-            echo '<p class="alert alert-success agileits" role="alert"> No has ingresado el numero de entradas.!p>';
-            $this->viewCartelera();
-        }
-    }
-
-    public function viewShoppingCart(){
-
-        $this->userController = new C_User;
-        $user = $this->userController->checkSession();
-
-        if(isset ($_POST["id"]) && ($_POST['tickets'])){    /** mandar ticket id calse ticket y de ahi QR, ETC. */
-
-            $id = $_POST["id"];
-            $tickets = $_POST["tickets"];
-            
-            $this->sessionController = new C_Session;
-            //$S_list = $this->sessionController->getmovie_schedules($id);
-
-            require(VIEWS_PATH . "viewShoppingCart.php");
-
-        }else{
-
-            echo '<p class="alert alert-success agileits" role="alert"> ee .!p>';
-            require(VIEWS_PATH . "home.php");
+            require(VIEWS_PATH . "viewPurchase.php");
         }
     }
 

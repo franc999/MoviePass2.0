@@ -33,9 +33,52 @@ class TicketController
         $this->dao->create($ticket);
     }
 
-    public function readTicket ($_session){
+    public function readTicket ($id){
 
-        $ticket = $this->dao->readId($_session);
-        return $ticket;
+        $list = $this->dao->readId($id);
+
+        if (!is_array($list) && $list != false){ // si no hay nada cargado, readall devuelve false
+            $array[] = $list;
+            $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+        }else if($list ==false){
+            $list=[];
+        }
+
+        return $list;
+    }
+
+    public function readAllForSession ($id_rm){
+
+        $list = $this->dao->readAllForSession($id_rm);
+
+        if (!is_array($list) && $list != false){ // si no hay nada cargado, readall devuelve false
+            $array[] = $list;
+            $list = $array; // para que devuelva un arreglo en caso de haber solo 1 objeto // esto para cuando queremos hacer foreach al listar, ya que no se puede hacer foreach sobre un objeto ni sobre un false
+        }else if($list ==false){
+            $list=[];
+        }
+
+        return $list;
+    }
+
+    public function readAllWhitoutUser($id_rm){
+
+        $T_list = $this->dao->readAllWhitoutUser($id_rm);
+
+        if($T_list != false){
+            
+            $i=0;
+            foreach($T_list as $list){$i++;}
+            return $i;
+
+        }else{
+
+            return 0;
+        }
+    }
+
+    public function asignUser($id_ticket, $id_user){
+
+        return $flag = $this->dao->asignUser($id_ticket, $id_user);
     }
 }

@@ -12,7 +12,7 @@ use Controllers\RoomController as C_room;
             
             foreach($R_list as $room){
 
-                $rooms .= "<option value='$room->getId()'>$room->getName()</option>";
+                echo $room->getId();echo $room->getName();
                 
             }
         }else{

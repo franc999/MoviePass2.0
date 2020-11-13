@@ -280,9 +280,7 @@ class DAOSession
 
      public function readSessionsByDate($date)    // MODIFICAR
      {
-          $sql = "SELECT rm.id_rm, t.name AS theather , r.name AS room, m.title AS film, rm.date, rm.time, m.id_movie AS id_movie
-          FROM room_x_movie rm INNER JOIN  rooms r ON rm.id_room = r.id_room INNER JOIN theathers t ON t.id_theather = r.id_theather INNER JOIN movies m ON rm.id_movie = m.id_movie
-           where rm.date =:date group by m.title;";
+          $sql = "SELECT *FROM room_x_movie where date =:date";
           
           $parameters['date'] = $date;
 

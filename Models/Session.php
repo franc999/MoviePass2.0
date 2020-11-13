@@ -14,6 +14,10 @@ class Session
     private $timeEnd;
     private $date;
 
+    private $nameTheather;  // se usan para mostrar la sesion
+    private $nameRoom;     //
+    private $nameMovie;
+
     public function __construct($id_theather='', $id_room='',$id_movie='',$id_session='', $date='', $time='', $timeEnd='', $availableSeats=''){
         
         $this->id_session = $id_session;
@@ -63,6 +67,26 @@ class Session
         $this->timeEnd=$timeEnd;
     }
 
+    public function setAvailableSeats($availableSeats){
+
+        $this->availableSeats=$availableSeats;
+    }
+
+    public function setTheatherName($nameTheather){
+
+        $this->nameTheather=$nameTheather;
+    }
+
+    public function setRoomName($nameRoom){
+
+        $this->nameRoom=$nameRoom;
+    }
+
+    public function setMovieName($nameMovie){
+        
+        $this->nameMovie=$nameMovie;
+    }
+
     ////////////** GETTERS *//////////////////
 
     public function getId_session()
@@ -98,6 +122,26 @@ class Session
     public function getTimeEnd()
     {
         return $this->timeEnd;
+    }
+
+    public function getAvailableSeats(){
+
+        return $this->availableSeats;
+    }
+
+    public function getTheatherName(){
+
+        return $this->nameTheather;
+    }
+
+    public function getRoomName(){
+
+        return $this->nameRoom;
+    }
+    
+    public function getMovieName(){
+
+        return $this->nameMovie;
     }
 }
 
