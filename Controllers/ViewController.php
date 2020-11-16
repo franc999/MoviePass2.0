@@ -199,6 +199,15 @@ class ViewController
         require(VIEWS_PATH . "addCart.php");
     }
 
+    public function viewCart($tickets, $user, $id_room){
+
+        //echo "$tickets";
+        $list = $this->ticketController->readAllForSession($id_room);
+
+
+        require(VIEWS_PATH."addSession2.php");
+    }
+
     public function viewShoppingCart($tickets, $id, $id_room, $theather_name, $room_name, $movie_name){ // aca ya termina la compra
 
         $this->userController = new C_User;
@@ -225,29 +234,8 @@ class ViewController
                 //echo "$availableTickets";
 
                 if($availableTickets > $tickets){
-                    
-                    $i=0;
-                    $list = $this->ticketController->readAllForSession($id);  // idsession
-
-                    foreach($list as $ticket){
-
-                        if($i != $tickets){
-                            
-                            $flag = $this->ticketController->asignUser($ticket->getId_ticket(), $user->getId());
-                            $i++;
-                            echo "$i\n";
-                        }else{break;}
-                    }
-
-                    if($flag==1){
-
-                        echo '<p class="alert alert-success agileits" role="alert"> Entradas añadidas al carrito>';
-                    }else{
-
-                        echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
-                        require(VIEWS_PATH."home.php");
-                    }
-
+                                        
+                    $this->viewCart($tickets, $user, $id_room);
                 }else{
 
                     echo '<p class="alert alert-success agileits" role="alert"> No disponemos de suficientes entradas!';
@@ -269,6 +257,7 @@ class ViewController
                 echo '<img class="img-thumbnail" src="'.$codesDir.$codeFile.'" />';
                 */
                 
+                
                 foreach($list as $ticket){
                     $flag = $this->ticketController->asignUser($ticket->getId_ticket(), $user->getId());}
 
@@ -281,10 +270,34 @@ class ViewController
                     echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
                     require(VIEWS_PATH."home.php");
                 }
-
             }
 
             require(VIEWS_PATH . "viewPurchase.php");
+        }
+    }
+
+    public function confirmCart($tickets, $user, $id_room){
+
+        $i=0;
+        $list = $this->ticketController->readAllForSession($id);  // idsession
+
+        foreach($list as $ticket){
+
+            if($i != $tickets){
+                
+                $flag = $this->ticketController->asignUser($ticket->getId_ticket(), $user->getId());
+                $i++;
+                echo "$i\n";
+            }else{break;}
+        }
+
+        if($flag==1){
+
+            echo '<p class="alert alert-success agileits" role="alert"> Entradas añadidas al carrito>';
+        }else{
+
+            echo '<p class="alert alert-success agileits" role="alert"> Ha ocurrido un error>';
+            require(VIEWS_PATH."home.php");
         }
     }
 
